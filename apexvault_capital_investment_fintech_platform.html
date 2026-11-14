@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexVault Capital | Regulated Digital Asset & Capital Management</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#0f172a',
+                            950: '#080d1a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+        }
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(145deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95));
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
+
+    <!-- ==================== GLOBAL TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+    <!-- ==================== TOP STICKY NAVIGATION & ROLE SWITCHER ==================== -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-lg border-b border-slate-800/80">
+        <!-- Security & Trust Top Ribbon -->
+        <div class="bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border-b border-slate-800/60 px-4 py-1.5 text-xs">
+            <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-4 text-slate-300">
+                    <span class="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Operating 2 Years & 8 Months (Est. March 2024)
+                    </span>
+                    <span class="hidden md:inline-flex items-center gap-1 text-slate-400">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-400"></i> 256-Bit SSL & Server-Side TrxID Verification
+                    </span>
+                </div>
+                <!-- Demo Role Switcher for Instant Exploration -->
+                <div class="flex items-center gap-1.5 bg-slate-900/90 p-1 rounded-lg border border-slate-700/70">
+                    <span class="text-[11px] text-slate-400 px-1.5 hidden sm:inline">Explore View:</span>
+                    <button onclick="switchMainView('public')" id="nav-role-public" class="px-2.5 py-1 rounded-md text-xs font-semibold transition bg-blue-600 text-white">Public Site</button>
+                    <button onclick="switchMainView('member')" id="nav-role-member" class="px-2.5 py-1 rounded-md text-xs font-semibold transition text-slate-300 hover:text-white">Member Dashboard</button>
+                    <button onclick="switchMainView('admin')" id="nav-role-admin" class="px-2.5 py-1 rounded-md text-xs font-semibold transition text-slate-300 hover:text-white flex items-center gap-1">
+                        <i data-lucide="shield" class="w-3 h-3 text-amber-400"></i> Admin Panel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navbar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <a href="#" onclick="switchMainView('public'); return false;" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-indigo-600 to-emerald-500 p-0.5 shadow-lg shadow-blue-500/20">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-400 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <span class="font-display font-extrabold text-lg tracking-tight text-white">ApexVault<span class="text-blue-400">.</span></span>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 -mt-1">Capital Management</span>
+                </div>
+            </a>
+
+            <!-- Public Nav Links -->
+            <nav id="public-nav-links" class="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
+                <a href="#tiers" onclick="switchMainView('public')" class="hover:text-white transition">Tiers & Plans</a>
+                <a href="#gateways" onclick="switchMainView('public')" class="hover:text-white transition">Gateways</a>
+                <a href="#leaderboard" onclick="switchMainView('public')" class="hover:text-white transition">Top 10 Earners</a>
+                <a href="#referral-home" onclick="switchMainView('public')" class="hover:text-white transition">Affiliate Program</a>
+                <button onclick="openModal('terms-modal')" class="hover:text-white transition">Company & Terms</button>
+            </nav>
+
+            <!-- Right Action Controls -->
+            <div class="flex items-center gap-2.5">
+                <!-- Currency Display Toggle -->
+                <button onclick="toggleCurrency()" id="currency-toggle-btn" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700/80 text-xs font-semibold text-slate-200 hover:border-blue-500/50 transition">
+                    <span class="text-emerald-400 font-bold">৳ BDT</span>
+                    <span class="text-slate-500">/</span>
+                    <span class="text-slate-400">USDT</span>
+                </button>
+
+                <!-- Notification Bell -->
+                <button onclick="openModal('notifications-modal')" class="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition" title="System Notifications">
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                    <span id="notif-badge" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-[10px] font-bold flex items-center justify-center text-white">3</span>
+                </button>
+
+                <!-- Auth State Buttons -->
+                <div id="auth-buttons-guest" class="flex items-center gap-2">
+                    <button onclick="openAuthModal('login')" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-slate-200 hover:bg-slate-800/80 transition">Login</button>
+                    <button onclick="openAuthModal('register')" class="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25 transition">Register</button>
+                </div>
+
+                <div id="auth-buttons-logged" class="hidden items-center gap-2">
+                    <button onclick="switchMainView('member')" class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-blue-500/60 transition">
+                        <img id="nav-user-avatar" src="https://placehold.co/64x64/1e293b/38bdf8?text=AR" alt="User" class="w-6 h-6 rounded-lg object-cover">
+                        <span id="nav-user-name" class="text-xs font-semibold text-white max-w-[90px] truncate">Arif Rahman</span>
+                    </button>
+                    <button onclick="handleLogout()" class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-rose-400 hover:bg-rose-500/10 transition" title="Logout">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================================================= -->
+    <!-- VIEW 1: PUBLIC HOME PAGE                                                                  -->
+    <!-- ========================================================================================= -->
+    <main id="view-public" class="block">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-slate-800/70">
+            <!-- Background Glow Orbs -->
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-semibold">
+                            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+                            <span>Trusted Track Record: 2 Years & 8 Months of Continuous Payouts</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+                            Institutional-Grade <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400">Wealth Growth</span> Built for Transparency.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+                            Deploy capital across diversified liquidity pools and algorithmic yield strategies. Seamless deposits and rapid withdrawals via <strong class="text-white">bKash, Nagad, Rocket, Bank Transfer, and USDT</strong> with full KYC & 2FA protection.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                            <button onclick="openAuthModal('register')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-xl shadow-blue-600/25 flex items-center gap-2 transition">
+                                <span>Create Free Account</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="switchMainView('member')" class="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-100 font-semibold text-sm flex items-center gap-2 transition">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-400"></i>
+                                <span>Launch Member Dashboard</span>
+                            </button>
+                            <button onclick="toggleSupportChat()" class="px-5 py-3.5 rounded-2xl bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-slate-300 font-medium text-sm flex items-center gap-2 transition">
+                                <i data-lucide="headphones" class="w-4 h-4 text-blue-400"></i>
+                                <span>24/7 Live Support</span>
+                            </button>
+                        </div>
+
+                        <!-- Security Trust Pills -->
+                        <div class="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-400">
+                            <div class="flex items-center gap-2 bg-slate-900/70 px-3 py-2 rounded-xl border border-slate-800">
+                                <i data-lucide="lock" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                                <span>Argon2 Password Hash</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-slate-900/70 px-3 py-2 rounded-xl border border-slate-800">
+                                <i data-lucide="smartphone" class="w-4 h-4 text-blue-400 shrink-0"></i>
+                                <span>OTP & 2FA Protected</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-slate-900/70 px-3 py-2 rounded-xl border border-slate-800">
+                                <i data-lucide="file-check-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                                <span>KYC Verified Accounts</span>
+                            </div>
+                            <div class="flex items-center gap-2 bg-slate-900/70 px-3 py-2 rounded-xl border border-slate-800">
+                                <i data-lucide="database-backup" class="w-4 h-4 text-purple-400 shrink-0"></i>
+                                <span>Daily Encrypted Backup</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Live Telemetry & Yield Estimator Card -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-700/60 space-y-6">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                                <div>
+                                    <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">Interactive Yield Simulator</span>
+                                    <h3 class="text-lg font-bold text-white mt-0.5">Estimate Potential Returns</h3>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-bold">Live Rate</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-medium mb-1.5">
+                                        <span class="text-slate-400">Select Investment Plan</span>
+                                        <span id="sim-risk-badge" class="text-emerald-400 font-semibold">Low Risk</span>
+                                    </div>
+                                    <select id="sim-plan-select" onchange="updateYieldSimulator()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                        <option value="0">Basic Plan (Min ৳1,000 • 30 Days • Est. 8% - 12%)</option>
+                                        <option value="1" selected>Standard Plan (Min ৳5,000 • 90 Days • Est. 24% - 32%)</option>
+                                        <option value="2">Premium Plan (Min ৳10,000 • 180 Days • Est. 55% - 70%)</option>
+                                        <option value="3">Professional Plan (Min ৳50,000 • 365 Days • Est. 120% - 155%)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-medium mb-1.5">
+                                        <span class="text-slate-400">Investment Amount (BDT ৳)</span>
+                                        <span id="sim-amount-display" class="text-white font-bold text-sm">৳25,000</span>
+                                    </div>
+                                    <input type="range" id="sim-amount-range" min="1000" max="500000" step="1000" value="25000" oninput="updateYieldSimulator()" class="w-full accent-blue-500 cursor-pointer">
+                                    <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                                        <span>৳1,000</span>
+                                        <span>৳250,000</span>
+                                        <span>৳500,000</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-2">
+                                    <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                        <span class="text-[11px] text-slate-400 block">Projected Net Profit</span>
+                                        <span id="sim-profit-out" class="text-lg font-extrabold text-emerald-400 mt-0.5 block">+৳7,000</span>
+                                        <span class="text-[10px] text-slate-500">Subject to market conditions</span>
+                                    </div>
+                                    <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                        <span class="text-[11px] text-slate-400 block">Est. Maturity Value</span>
+                                        <span id="sim-total-out" class="text-lg font-extrabold text-white mt-0.5 block">৳32,000</span>
+                                        <span id="sim-term-out" class="text-[10px] text-blue-400">Term: 90 Days</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="openAuthModal('register')" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition shadow-lg shadow-blue-600/20">
+                                    Start Investing with This Plan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Platform Metrics Bar (4 Mandatory Counters) -->
+                <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Total Investment Amount</span>
+                            <div id="stat-total-invested" class="text-2xl font-extrabold text-white mt-0.5">৳48,92,50,000</div>
+                            <span class="text-[11px] text-emerald-400 font-medium">+14.2% this month</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Total Registered Members</span>
+                            <div id="stat-total-members" class="text-2xl font-extrabold text-white mt-0.5">34,892</div>
+                            <span class="text-[11px] text-blue-400 font-medium">94% KYC Verified</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                            <i data-lucide="banknote" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Total Payment Amount</span>
+                            <div id="stat-total-payment" class="text-2xl font-extrabold text-white mt-0.5">৳61,40,18,500</div>
+                            <span class="text-[11px] text-emerald-400 font-medium">100% On-Time Settlement</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-5 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Total Withdrawal Amount</span>
+                            <div id="stat-total-withdrawal" class="text-2xl font-extrabold text-white mt-0.5">৳29,15,84,200</div>
+                            <span class="text-[11px] text-slate-400 font-medium">Avg. Payout: 18 Mins</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supported Payment Gateways Showcase (bKash, Nagad, Rocket, USDT) -->
+        <section id="gateways" class="py-12 bg-slate-900/40 border-b border-slate-800/70">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Instant Local & Crypto Rails</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Supported Deposit & Withdrawal Gateways</h2>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- bKash Card -->
+                    <div class="rounded-2xl p-5 bg-gradient-to-br from-[#E2136E]/20 to-slate-900 border border-[#E2136E]/40 flex items-center justify-between group hover:scale-[1.02] transition">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-xl bg-[#E2136E] flex items-center justify-center shadow-lg shadow-[#E2136E]/30 shrink-0">
+                                <!-- Custom Bird/Origami Emblem SVG -->
+                                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3 4l7.5 6.5L19 3l-3.5 9.5L21 17l-9-1.5L6 21l2.5-8L3 4z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-white text-lg">bKash</h3>
+                                <span class="text-xs text-pink-300 font-medium">Merchant & Personal</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Instant</span>
+                    </div>
+
+                    <!-- Nagad Card -->
+                    <div class="rounded-2xl p-5 bg-gradient-to-br from-[#F6921E]/20 to-slate-900 border border-[#F6921E]/40 flex items-center justify-between group hover:scale-[1.02] transition">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ED1C24] to-[#F6921E] flex items-center justify-center shadow-lg shadow-orange-500/30 shrink-0">
+                                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M8 15V9l8 6V9"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-white text-lg">Nagad</h3>
+                                <span class="text-xs text-orange-300 font-medium">Instant MFS Transfer</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Zero Fee</span>
+                    </div>
+
+                    <!-- Rocket Card -->
+                    <div class="rounded-2xl p-5 bg-gradient-to-br from-[#8C3494]/25 to-slate-900 border border-[#8C3494]/50 flex items-center justify-between group hover:scale-[1.02] transition">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-xl bg-[#8C3494] flex items-center justify-center shadow-lg shadow-purple-600/30 shrink-0">
+                                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                                    <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-white text-lg">Rocket</h3>
+                                <span class="text-xs text-purple-300 font-medium">DBBL Mobile Banking</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Active</span>
+                    </div>
+
+                    <!-- USDT Card -->
+                    <div class="rounded-2xl p-5 bg-gradient-to-br from-[#26A17B]/20 to-slate-900 border border-[#26A17B]/40 flex items-center justify-between group hover:scale-[1.02] transition">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-12 h-12 rounded-xl bg-[#26A17B] flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0">
+                                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm1 14.9V19h-2v-2.1c-2.8-.3-5-1.2-5-2.3 0-1.1 2.2-2 5-2.3V10H7V8h10v2h-4v2.3c2.8.3 5 1.2 5 2.3 0 1.1-2.2 2-5 2.3z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-white text-lg">USDT</h3>
+                                <span class="text-xs text-emerald-300 font-medium">TRC20 / BEP20 Network</span>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Global</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Membership Tiers (Bronze, Silver, Gold, Diamond) & Detailed Investment Plans -->
+        <section id="tiers" class="py-16 sm:py-20 border-b border-slate-800/70">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <!-- Part 1: Bronze, Silver, Gold, Diamond Tiers -->
+                <div>
+                    <div class="text-center max-w-3xl mx-auto mb-12">
+                        <span class="text-xs font-bold uppercase tracking-widest text-amber-400">VIP Investor Status</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Bronze, Silver, Gold & Diamond Tiers</h2>
+                        <p class="text-slate-400 text-sm sm:text-base mt-2">Unlock lower withdrawal fees, higher referral commission overrides, and priority settlement as your portfolio grows.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Bronze -->
+                        <div class="rounded-3xl p-6 bg-gradient-to-b from-amber-900/25 via-slate-900 to-slate-950 border border-amber-700/40 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-amber-700/30 text-amber-300 text-xs font-bold">BRONZE TIER</span>
+                                    <i data-lucide="shield" class="w-6 h-6 text-amber-500"></i>
+                                </div>
+                                <div class="text-2xl font-extrabold text-white">৳1,000 – ৳4,999</div>
+                                <p class="text-xs text-slate-400 mt-1">Entry-level liquidity access</p>
+                                <ul class="mt-5 space-y-2.5 text-xs text-slate-300">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400"></i> Access to Basic Plan (30 Days)</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400"></i> 3% Direct Referral Bonus</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400"></i> Standard 2.0% Withdrawal Fee</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400"></i> 24/7 Ticket Support</li>
+                                </ul>
+                            </div>
+                            <button onclick="openAuthModal('register')" class="mt-6 w-full py-2.5 rounded-xl bg-amber-700/30 hover:bg-amber-700/50 border border-amber-600/40 text-amber-200 text-xs font-bold transition">Select Bronze</button>
+                        </div>
+
+                        <!-- Silver -->
+                        <div class="rounded-3xl p-6 bg-gradient-to-b from-slate-600/25 via-slate-900 to-slate-950 border border-slate-500/50 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-slate-500/30 text-slate-200 text-xs font-bold">SILVER TIER</span>
+                                    <i data-lucide="award" class="w-6 h-6 text-slate-300"></i>
+                                </div>
+                                <div class="text-2xl font-extrabold text-white">৳5,000 – ৳9,999</div>
+                                <p class="text-xs text-slate-400 mt-1">Balanced medium-term growth</p>
+                                <ul class="mt-5 space-y-2.5 text-xs text-slate-300">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-300"></i> Standard Plan (90 Days) Unlocked</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-300"></i> 5% Direct Referral Bonus</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-300"></i> Reduced 1.5% Withdrawal Fee</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-300"></i> Priority KYC Verification</li>
+                                </ul>
+                            </div>
+                            <button onclick="openAuthModal('register')" class="mt-6 w-full py-2.5 rounded-xl bg-slate-700/50 hover:bg-slate-700 border border-slate-500/40 text-white text-xs font-bold transition">Select Silver</button>
+                        </div>
+
+                        <!-- Gold -->
+                        <div class="rounded-3xl p-6 bg-gradient-to-b from-yellow-500/20 via-slate-900 to-slate-950 border-2 border-yellow-500/60 flex flex-col justify-between relative shadow-xl shadow-yellow-500/10">
+                            <span class="absolute -top-3 right-5 px-3 py-0.5 rounded-full bg-yellow-500 text-slate-950 text-[10px] font-extrabold uppercase">Most Popular</span>
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-yellow-500/25 text-yellow-300 text-xs font-bold">GOLD TIER</span>
+                                    <i data-lucide="crown" class="w-6 h-6 text-yellow-400"></i>
+                                </div>
+                                <div class="text-2xl font-extrabold text-white">৳10,000 – ৳49,999</div>
+                                <p class="text-xs text-slate-400 mt-1">High-yield compounding portfolio</p>
+                                <ul class="mt-5 space-y-2.5 text-xs text-slate-200">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-400"></i> Premium Plan (180 Days) Unlocked</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-400"></i> 8% Direct + 2% Level-2 Referral</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-400"></i> Low 1.0% Withdrawal Fee</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-yellow-400"></i> Fast-Track 15-Min Payouts</li>
+                                </ul>
+                            </div>
+                            <button onclick="openAuthModal('register')" class="mt-6 w-full py-2.5 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 text-xs font-extrabold transition">Select Gold</button>
+                        </div>
+
+                        <!-- Diamond -->
+                        <div class="rounded-3xl p-6 bg-gradient-to-b from-cyan-500/25 via-slate-900 to-slate-950 border border-cyan-400/50 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="px-3 py-1 rounded-full bg-cyan-500/25 text-cyan-300 text-xs font-bold">DIAMOND TIER</span>
+                                    <i data-lucide="gem" class="w-6 h-6 text-cyan-400"></i>
+                                </div>
+                                <div class="text-2xl font-extrabold text-white">৳50,000+</div>
+                                <p class="text-xs text-slate-400 mt-1">Institutional & VIP wealth desk</p>
+                                <ul class="mt-5 space-y-2.5 text-xs text-slate-200">
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Professional Plan (365 Days)</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> 12% Multi-Tier Referral Bonus</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> 0% Zero Withdrawal Fee</li>
+                                    <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Dedicated Account Manager</li>
+                                </ul>
+                            </div>
+                            <button onclick="openAuthModal('register')" class="mt-6 w-full py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 text-xs font-bold transition">Select Diamond</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Transparent Investment Plans & Risk Disclosure Matrix -->
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Transparent Plan Specifications</span>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Investment Plans & Risk Parameters</h3>
+                        </div>
+                        <button onclick="openModal('terms-modal')" class="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 hover:text-blue-300">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Read Full Investment Terms & Loss Disclosure
+                        </button>
+                    </div>
+
+                    <div id="public-plans-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Dynamically rendered from state.plans -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credibility Section: Top 10 Earners Leaderboard & Verified Customer Reviews -->
+        <section id="leaderboard" class="py-16 sm:py-20 bg-slate-900/30 border-b border-slate-800/70">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-10">
+                    <!-- Top 10 Earners Leaderboard -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-widest text-amber-400">Verified Payout Ledger</span>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Top 10 Highest Earning Members</h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">Audited Live</span>
+                        </div>
+
+                        <div class="glass-card rounded-3xl overflow-hidden border border-slate-800">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead class="bg-slate-900/90 text-slate-400 text-xs uppercase border-b border-slate-800">
+                                        <tr>
+                                            <th class="py-3.5 px-4">Rank</th>
+                                            <th class="py-3.5 px-4">Member & Tier</th>
+                                            <th class="py-3.5 px-4">Rating</th>
+                                            <th class="py-3.5 px-4 text-right">Total Income</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="top-earners-tbody" class="divide-y divide-slate-800/70">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Ratings & Verified Reviews + Referral Preview -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-400">4.9 / 5.0 Average Rating</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Investor Reviews</h2>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="glass-card rounded-2xl p-5 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2.5">
+                                        <img src="https://placehold.co/64x64/1e3a8a/ffffff?text=TH" alt="Tanvir" class="w-9 h-9 rounded-xl">
+                                        <div>
+                                            <div class="text-sm font-bold text-white flex items-center gap-1.5">
+                                                Tanvir Hasan <i data-lucide="badge-check" class="w-4 h-4 text-blue-400"></i>
+                                            </div>
+                                            <span class="text-[11px] text-slate-400">Diamond Member • Dhaka</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400 text-xs">★★★★★</div>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">"Been investing with ApexVault for over 2 years. My Nagad and USDT withdrawals always arrive within 20 minutes. The transparency around risk levels sets them apart."</p>
+                            </div>
+
+                            <div class="glass-card rounded-2xl p-5 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2.5">
+                                        <img src="https://placehold.co/64x64/065f46/ffffff?text=NS" alt="Nusrat" class="w-9 h-9 rounded-xl">
+                                        <div>
+                                            <div class="text-sm font-bold text-white flex items-center gap-1.5">
+                                                Nusrat Jahan <i data-lucide="badge-check" class="w-4 h-4 text-blue-400"></i>
+                                            </div>
+                                            <span class="text-[11px] text-slate-400">Gold Member • Chattogram</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex text-amber-400 text-xs">★★★★★</div>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed">"Started with the ৳5,000 Standard Plan and scaled up via referral commissions. KYC approval took less than 2 hours and 2FA gives complete peace of mind."</p>
+                            </div>
+                        </div>
+
+                        <!-- Personal Referral Link Box on Homepage -->
+                        <div id="referral-home" class="rounded-3xl p-6 bg-gradient-to-br from-blue-900/40 via-slate-900 to-indigo-950/50 border border-blue-500/30 space-y-3">
+                            <div class="flex items-center gap-2 text-blue-300 text-xs font-bold uppercase tracking-wider">
+                                <i data-lucide="share-2" class="w-4 h-4"></i> Instant Affiliate Partnership
+                            </div>
+                            <h3 class="text-lg font-extrabold text-white">Your Personal Referral Link</h3>
+                            <p class="text-xs text-slate-300">Share your personal referral link and earn up to <strong class="text-emerald-400">12% instant commission</strong> on every eligible deposit made by your network.</p>
+                            <div class="flex items-center gap-2 pt-1">
+                                <input type="text" id="home-ref-link" readonly value="https://apexvault.capital/ref/APEX-ARIF88" class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 font-mono">
+                                <button onclick="copyTextValue('home-ref-link', 'Personal Referral Link copied!')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shrink-0 transition">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer with Company Info, Security Essentials & Terms -->
+        <footer class="bg-slate-950 pt-14 pb-10 text-slate-400 text-xs">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800/80">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-extrabold">A</div>
+                            <span class="font-display font-extrabold text-base text-white">ApexVault Capital</span>
+                        </div>
+                        <p class="leading-relaxed">Registered Digital Capital & Quantitative Asset Management firm operating continuously for <strong class="text-slate-200">2 Years & 8 Months</strong>.</p>
+                        <p class="text-slate-500">Reg No: AVC-2024-884920 • Gulshan-2, Dhaka 1212, Bangladesh</p>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <h4 class="text-white font-bold text-sm">Platform Modules</h4>
+                        <ul class="space-y-1.5">
+                            <li><button onclick="switchMainView('member')" class="hover:text-white">Member Dashboard</button></li>
+                            <li><button onclick="openAuthModal('register')" class="hover:text-white">KYC & 2FA Verification</button></li>
+                            <li><a href="#tiers" class="hover:text-white">Bronze to Diamond Tiers</a></li>
+                            <li><button onclick="switchMainView('admin')" class="hover:text-amber-400 text-amber-400/80">Admin Control Suite</button></li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <h4 class="text-white font-bold text-sm">Security Architecture</h4>
+                        <ul class="space-y-1.5 text-slate-400">
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Argon2id Password Hashing</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Server-Side TrxID Verification</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Rate Limiting & Anti-Fraud AI</li>
+                            <li class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i> Automated Encrypted Backups</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        <h4 class="text-white font-bold text-sm">Legal & Support</h4>
+                        <ul class="space-y-1.5">
+                            <li><button onclick="openModal('terms-modal')" class="hover:text-white">Terms & Conditions</button></li>
+                            <li><button onclick="openModal('terms-modal')" class="hover:text-white">Profit & Loss Risk Disclosure</button></li>
+                            <li><button onclick="toggleSupportChat()" class="hover:text-white">24/7 Live Support Desk</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
+                    <span>© 2024–2026 ApexVault Capital Ltd. All rights reserved.</span>
+                    <span>Risk Warning: Financial investments carry market risk; returns vary according to actual market conditions.</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ========================================================================================= -->
+    <!-- VIEW 2: USER DASHBOARD (MEMBER PORTAL)                                                    -->
+    <!-- ========================================================================================= -->
+    <section id="view-member" class="hidden min-h-[calc(100vh-105px)] bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="grid lg:grid-cols-12 gap-6">
+                <!-- Member Sidebar -->
+                <aside class="lg:col-span-3 space-y-4">
+                    <div class="glass-card rounded-3xl p-5 border border-slate-800">
+                        <div class="flex items-center gap-3.5 pb-4 border-b border-slate-800">
+                            <img id="dash-avatar" src="https://placehold.co/96x96/1e293b/38bdf8?text=AR" alt="Profile" class="w-14 h-14 rounded-2xl object-cover border-2 border-blue-500/50">
+                            <div class="min-w-0">
+                                <h3 id="dash-username" class="font-bold text-white text-base truncate">Arif Rahman</h3>
+                                <span id="dash-email" class="text-xs text-slate-400 block truncate">arif.rahman@example.com</span>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span id="dash-tier-badge" class="px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-300 text-[10px] font-bold">GOLD TIER</span>
+                                    <span id="dash-kyc-badge" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">KYC Verified</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Tabs -->
+                        <nav class="mt-4 space-y-1">
+                            <button onclick="switchMemberTab('overview')" id="m-tab-overview" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 text-white transition">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard Overview
+                            </button>
+                            <button onclick="switchMemberTab('plans')" id="m-tab-plans" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i> Investment Plans
+                            </button>
+                            <button onclick="switchMemberTab('deposit')" id="m-tab-deposit" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="arrow-down-circle" class="w-4 h-4 text-blue-400"></i> Deposit Funds
+                            </button>
+                            <button onclick="switchMemberTab('withdraw')" id="m-tab-withdraw" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="arrow-up-circle" class="w-4 h-4 text-amber-400"></i> Withdraw Funds
+                            </button>
+                            <button onclick="switchMemberTab('referrals')" id="m-tab-referrals" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Referral Network
+                            </button>
+                            <button onclick="switchMemberTab('security')" id="m-tab-security" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i> Profile, KYC & 2FA
+                            </button>
+                            <button onclick="switchMemberTab('support')" id="m-tab-support" class="member-nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-900 transition">
+                                <i data-lucide="life-buoy" class="w-4 h-4 text-rose-400"></i> Support Tickets
+                            </button>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- Member Main Content Area -->
+                <div class="lg:col-span-9 space-y-6">
+                    <!-- TAB 1: OVERVIEW -->
+                    <div id="member-panel-overview" class="member-panel space-y-6">
+                        <!-- Top Action Bar -->
+                        <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/70 p-4 rounded-2xl border border-slate-800">
+                            <div>
+                                <h2 class="text-xl font-extrabold text-white">Portfolio Overview</h2>
+                                <p class="text-xs text-slate-400">Real-time capital allocation, profit/loss tracking & ledger history</p>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <button onclick="switchMemberTab('deposit')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i data-lucide="plus" class="w-4 h-4"></i> Deposit
+                                </button>
+                                <button onclick="switchMemberTab('withdraw')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i> Withdraw
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 7 Mandatory Financial KPI Cards -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-blue-500">
+                                <span class="text-xs text-slate-400">Total Balance</span>
+                                <div id="kpi-total-balance" class="text-xl font-extrabold text-white mt-1">৳84,500</div>
+                                <span class="text-[10px] text-blue-400">Available + Active</span>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-indigo-500">
+                                <span class="text-xs text-slate-400">Invested Amount</span>
+                                <div id="kpi-invested" class="text-xl font-extrabold text-white mt-1">৳50,000</div>
+                                <span class="text-[10px] text-slate-400">2 Active Plans</span>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-emerald-500">
+                                <span class="text-xs text-slate-400">Available Balance</span>
+                                <div id="kpi-available" class="text-xl font-extrabold text-emerald-400 mt-1">৳34,500</div>
+                                <span class="text-[10px] text-emerald-400/80">Ready to Withdraw</span>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-cyan-500">
+                                <span class="text-xs text-slate-400">Net Profit / Loss</span>
+                                <div id="kpi-profit-loss" class="text-xl font-extrabold text-emerald-400 mt-1">+৳14,250</div>
+                                <span class="text-[10px] text-emerald-400">+28.5% Net Yield</span>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4">
+                                <span class="text-xs text-slate-400">Total Deposit</span>
+                                <div id="kpi-total-deposit" class="text-lg font-bold text-white mt-1">৳95,000</div>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4">
+                                <span class="text-xs text-slate-400">Total Withdrawal</span>
+                                <div id="kpi-total-withdrawal" class="text-lg font-bold text-white mt-1">৳24,750</div>
+                            </div>
+                            <div class="glass-card rounded-2xl p-4 sm:col-span-2">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs text-slate-400">Referral Earnings</span>
+                                        <div id="kpi-referral-earnings" class="text-lg font-bold text-purple-400 mt-1">৳6,400</div>
+                                    </div>
+                                    <button onclick="switchMemberTab('referrals')" class="px-3 py-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-semibold hover:bg-purple-500/25">View Network</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart & Active Investments -->
+                        <div class="grid lg:grid-cols-12 gap-6">
+                            <div class="lg:col-span-7 glass-card rounded-3xl p-5 border border-slate-800">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="font-bold text-white text-sm">Portfolio Profit & Loss Performance</h3>
+                                    <span class="text-xs text-emerald-400 font-semibold">Last 6 Months</span>
+                                </div>
+                                <div class="h-60">
+                                    <canvas id="memberPortfolioChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-5 glass-card rounded-3xl p-5 border border-slate-800 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h3 class="font-bold text-white text-sm">Active Investments</h3>
+                                        <button onclick="switchMemberTab('plans')" class="text-xs text-blue-400 hover:underline">+ New Plan</button>
+                                    </div>
+                                    <div id="active-investments-list" class="space-y-3">
+                                        <!-- Rendered dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Investment History & Full Transaction History -->
+                        <div class="glass-card rounded-3xl p-5 border border-slate-800 space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <h3 class="font-bold text-white text-base">Complete Transaction & Investment Ledger</h3>
+                                <span class="text-xs text-slate-400">Real-time audit log</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
+                                        <tr>
+                                            <th class="py-3 px-3">Trx ID</th>
+                                            <th class="py-3 px-3">Type</th>
+                                            <th class="py-3 px-3">Method / Plan</th>
+                                            <th class="py-3 px-3">Amount</th>
+                                            <th class="py-3 px-3">Date</th>
+                                            <th class="py-3 px-3">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="member-transactions-tbody" class="divide-y divide-slate-800/70">
+                                        <!-- Rendered dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: INVESTMENT PLANS (MEMBER ENROLLMENT) -->
+                    <div id="member-panel-plans" class="member-panel hidden space-y-6">
+                        <div class="glass-card rounded-3xl p-6 border border-slate-800">
+                            <h2 class="text-xl font-extrabold text-white">Deploy Capital into Investment Plans</h2>
+                            <p class="text-xs text-slate-400 mt-1">Available Balance: <strong id="plan-tab-avail" class="text-emerald-400">৳34,500</strong> • Choose a plan below to subscribe instantly.</p>
+                            <div id="member-plans-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: DEPOSIT SYSTEM -->
+                    <div id="member-panel-deposit" class="member-panel hidden space-y-6">
+                        <div class="grid lg:grid-cols-12 gap-6">
+                            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                                <h2 class="text-xl font-extrabold text-white">Deposit Funds</h2>
+                                <p class="text-xs text-slate-400">Send funds to our verified merchant wallet and submit your Transaction ID (TrxID) for server-side verification.</p>
+
+                                <form onsubmit="handleMemberDeposit(event)" class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Select Payment Gateway</label>
+                                        <select id="dep-gateway" onchange="updateDepositGatewayInfo()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                            <option value="bKash">bKash (Merchant / Personal)</option>
+                                            <option value="Nagad">Nagad (Merchant / Personal)</option>
+                                            <option value="Rocket">Rocket (DBBL Mobile Banking)</option>
+                                            <option value="Bank Transfer">Bank Transfer (City Bank / BRAC Bank)</option>
+                                            <option value="USDT (TRC20)">USDT (TRC20 / BEP20 Crypto)</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Merchant Wallet Box -->
+                                    <div class="p-3.5 rounded-2xl bg-blue-950/40 border border-blue-500/30 flex items-center justify-between gap-2">
+                                        <div>
+                                            <span id="dep-wallet-label" class="text-[11px] text-blue-300 font-semibold block">Official bKash Merchant Number:</span>
+                                            <span id="dep-wallet-number" class="text-sm font-mono font-bold text-white">01711-889944</span>
+                                        </div>
+                                        <button type="button" onclick="copyTextValue('dep-wallet-number', 'Merchant wallet copied!')" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold">Copy</button>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Deposit Amount (BDT ৳) — Min ৳500</label>
+                                        <input type="number" id="dep-amount" min="500" required placeholder="e.g. 10000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Sender Number / Wallet Address</label>
+                                        <input type="text" id="dep-sender" required placeholder="e.g. 01812-345678" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Transaction ID (TrxID / Hash)</label>
+                                        <input type="text" id="dep-trxid" required placeholder="e.g. BKH98A72X9" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono uppercase">
+                                    </div>
+
+                                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition">
+                                        Submit Deposit for Verification
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Deposit History -->
+                            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                                <h3 class="text-lg font-extrabold text-white">Deposit History</h3>
+                                <p class="text-xs text-slate-400">Track successful, pending, and failed deposit verifications.</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="bg-slate-900 text-slate-400 uppercase">
+                                            <tr>
+                                                <th class="py-2.5 px-3">Gateway</th>
+                                                <th class="py-2.5 px-3">TrxID</th>
+                                                <th class="py-2.5 px-3">Amount</th>
+                                                <th class="py-2.5 px-3">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="deposit-history-tbody" class="divide-y divide-slate-800">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: WITHDRAWAL SYSTEM -->
+                    <div id="member-panel-withdraw" class="member-panel hidden space-y-6">
+                        <div class="grid lg:grid-cols-12 gap-6">
+                            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-xl font-extrabold text-white">Request Withdrawal</h2>
+                                    <span class="text-xs text-emerald-400 font-bold">Avail: <span id="wd-avail-display">৳34,500</span></span>
+                                </div>
+
+                                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1">
+                                    <div class="flex justify-between"><span>Minimum Withdrawal:</span> <strong class="text-white">৳500</strong></div>
+                                    <div class="flex justify-between"><span>Withdrawal Fee (Gold Tier):</span> <strong class="text-amber-400">1.0%</strong></div>
+                                    <div class="flex justify-between"><span>Estimated Processing Time:</span> <strong class="text-emerald-400">15 – 45 Minutes</strong></div>
+                                </div>
+
+                                <form onsubmit="handleMemberWithdraw(event)" class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Payout Method</label>
+                                        <select id="wd-method" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                            <option value="bKash">bKash Personal</option>
+                                            <option value="Nagad">Nagad Personal</option>
+                                            <option value="Rocket">Rocket Account</option>
+                                            <option value="Bank Account">Local Bank Account (BEFTN/NPSB)</option>
+                                            <option value="USDT (TRC20)">USDT (TRC20 Wallet)</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Account / Wallet Number</label>
+                                        <input type="text" id="wd-account" required placeholder="e.g. 01712-998877" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">Withdrawal Amount (BDT ৳)</label>
+                                        <input type="number" id="wd-amount" min="500" required oninput="calculateWithdrawalFee()" placeholder="e.g. 5000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                        <div class="flex justify-between text-[11px] text-slate-400 mt-1.5">
+                                            <span>Fee (1%): <strong id="wd-fee-calc" class="text-amber-400">৳0</strong></span>
+                                            <span>You Will Receive: <strong id="wd-net-calc" class="text-emerald-400">৳0</strong></span>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-sm shadow-lg transition">
+                                        Submit Withdrawal Request
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Withdrawal History -->
+                            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                                <h3 class="text-lg font-extrabold text-white">Withdrawal History</h3>
+                                <p class="text-xs text-slate-400">Status tracking for Pending, Approved, and Rejected payout requests.</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="bg-slate-900 text-slate-400 uppercase">
+                                            <tr>
+                                                <th class="py-2.5 px-3">Method</th>
+                                                <th class="py-2.5 px-3">Amount</th>
+                                                <th class="py-2.5 px-3">Net</th>
+                                                <th class="py-2.5 px-3">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="withdrawal-history-tbody" class="divide-y divide-slate-800">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 5: REFERRAL SYSTEM -->
+                    <div id="member-panel-referrals" class="member-panel hidden space-y-6">
+                        <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-6">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+                                <div>
+                                    <h2 class="text-xl font-extrabold text-white">Affiliate & Referral Program</h2>
+                                    <p class="text-xs text-slate-400 mt-1">Earn instant commission when your invited members verify KYC and activate an investment plan.</p>
+                                </div>
+                                <div class="flex items-center gap-2 bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-700">
+                                    <span class="text-xs text-slate-400">Referral Code:</span>
+                                    <strong id="member-ref-code" class="text-sm font-mono text-amber-400">APEX-ARIF88</strong>
+                                    <button onclick="copyTextValue('member-ref-code', 'Referral Code copied!')" class="text-blue-400 hover:text-blue-300 text-xs font-bold ml-1">Copy</button>
+                                </div>
+                            </div>
+
+                            <!-- Personal Referral Link -->
+                            <div class="space-y-2">
+                                <label class="text-xs font-semibold text-slate-300">Your Personal Referral Link</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="text" id="member-ref-link" readonly value="https://apexvault.capital/ref/APEX-ARIF88" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-200">
+                                    <button onclick="copyTextValue('member-ref-link', 'Personal Referral Link copied!')" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shrink-0">Copy Link</button>
+                                </div>
+                            </div>
+
+                            <!-- Referral Stats -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                                    <span class="text-xs text-slate-400">Total Referral Members</span>
+                                    <div class="text-2xl font-extrabold text-white mt-1">18</div>
+                                </div>
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                                    <span class="text-xs text-slate-400">Eligible Active Accounts</span>
+                                    <div class="text-2xl font-extrabold text-emerald-400 mt-1">14</div>
+                                </div>
+                                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                                    <span class="text-xs text-slate-400">Total Commission Earned</span>
+                                    <div class="text-2xl font-extrabold text-purple-400 mt-1">৳6,400</div>
+                                </div>
+                            </div>
+
+                            <!-- Commission Rules -->
+                            <div class="p-4 rounded-2xl bg-purple-950/25 border border-purple-500/30 text-xs text-slate-300 space-y-1.5">
+                                <h4 class="font-bold text-purple-300">Commission Rules & Eligibility:</h4>
+                                <p>• <strong>Level 1 (Direct):</strong> 8% instant bonus on referee's first qualifying investment (Gold Tier rate).</p>
+                                <p>• <strong>Level 2 (Indirect):</strong> 2% bonus when your direct referrals invite active investors.</p>
+                                <p>• <strong>Eligibility Rule:</strong> Referred account must complete email/OTP verification and deposit at least ৳1,000.</p>
+                            </div>
+
+                            <!-- Referral History Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs">
+                                    <thead class="bg-slate-900 text-slate-400 uppercase">
+                                        <tr>
+                                            <th class="py-3 px-3">Referred Member</th>
+                                            <th class="py-3 px-3">Joined Date</th>
+                                            <th class="py-3 px-3">Eligibility</th>
+                                            <th class="py-3 px-3">Commission Earned</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800">
+                                        <tr>
+                                            <td class="py-3 px-3 font-semibold text-white">Sabbir Ahmed</td>
+                                            <td class="py-3 px-3 text-slate-400">Nov 08, 2026</td>
+                                            <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">Eligible (Invested ৳20,000)</span></td>
+                                            <td class="py-3 px-3 font-bold text-emerald-400">+৳1,600</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 px-3 font-semibold text-white">Farhana Islam</td>
+                                            <td class="py-3 px-3 text-slate-400">Nov 02, 2026</td>
+                                            <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">Eligible (Invested ৳50,000)</span></td>
+                                            <td class="py-3 px-3 font-bold text-emerald-400">+৳4,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 px-3 font-semibold text-white">Rafiul Karim</td>
+                                            <td class="py-3 px-3 text-slate-400">Nov 12, 2026</td>
+                                            <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold">Pending Deposit</span></td>
+                                            <td class="py-3 px-3 text-slate-400">৳0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 6: PROFILE, KYC & 2FA -->
+                    <div id="member-panel-security" class="member-panel hidden space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Profile Update -->
+                            <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                                <h3 class="text-lg font-extrabold text-white">Profile & Password Management</h3>
+                                <form onsubmit="handleProfileUpdate(event)" class="space-y-3.5">
+                                    <div class="flex items-center gap-4">
+                                        <img id="profile-edit-preview" src="https://placehold.co/96x96/1e293b/38bdf8?text=AR" alt="Preview" class="w-16 h-16 rounded-2xl object-cover border border-slate-700">
+                                        <div>
+                                            <label class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white cursor-pointer inline-block">
+                                                Change Profile Photo
+                                                <input type="file" accept="image/*" onchange="previewAvatarUpload(event, 'profile-edit-preview')" class="hidden">
+                                            </label>
+                                            <span class="block text-[11px] text-slate-400 mt-1">JPG, PNG up to 2MB</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">Full Name</label>
+                                        <input type="text" id="prof-name-input" value="Arif Rahman" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">Mobile / Email</label>
+                                        <input type="text" id="prof-contact-input" value="arif.rahman@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-slate-400 mb-1">Set New Password (Optional)</label>
+                                        <input type="password" placeholder="••••••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                                    </div>
+                                    <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold">Save Profile Changes</button>
+                                </form>
+                            </div>
+
+                            <!-- KYC & 2FA Verification -->
+                            <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-5">
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-extrabold text-white">Identity Verification (KYC)</h3>
+                                        <span id="kyc-status-pill" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">Verified</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-1">Required for withdrawals above ৳50,000 and Diamond Tier benefits.</p>
+                                    <form onsubmit="handleKycSubmit(event)" class="mt-3 space-y-3">
+                                        <select class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                                            <option>National ID Card (NID / Smart Card)</option>
+                                            <option>International Passport</option>
+                                            <option>Driving License</option>
+                                        </select>
+                                        <input type="text" placeholder="Document Number (e.g. 1994827364512)" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                                        <button type="submit" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-white">Submit / Re-Verify KYC Documents</button>
+                                    </form>
+                                </div>
+
+                                <div class="pt-4 border-t border-slate-800 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h4 class="font-bold text-white text-sm">Two-Factor Authentication (2FA)</h4>
+                                            <p class="text-xs text-slate-400">Protect withdrawals & logins with TOTP / SMS OTP</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="toggle-2fa" checked onchange="showToast(this.checked ? '2FA Enabled for Logins & Withdrawals' : '2FA Disabled', this.checked ? 'success' : 'warning')" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 7: MEMBER SUPPORT TICKETS -->
+                    <div id="member-panel-support" class="member-panel hidden space-y-6">
+                        <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                            <h3 class="text-lg font-extrabold text-white">Customer Support & Complaint Desk</h3>
+                            <form onsubmit="handleMemberTicketSubmit(event)" class="grid sm:grid-cols-3 gap-3">
+                                <input type="text" id="ticket-subject" required placeholder="Subject (e.g. Deposit TrxID Delay)" class="sm:col-span-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                                <input type="text" id="ticket-message" required placeholder="Describe your issue or inquiry..." class="sm:col-span-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                                <button type="submit" class="py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold">Open Support Ticket</button>
+                            </form>
+                            <div id="member-tickets-list" class="space-y-2.5 pt-2">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- VIEW 3: ADMIN PANEL (FULL PLATFORM CONTROL SUITE)                                         -->
+    <!-- ========================================================================================= -->
+    <section id="view-admin" class="hidden min-h-[calc(100vh-105px)] bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            <!-- Admin Header Banner -->
+            <div class="rounded-3xl p-5 bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 border border-amber-500/30 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-xl font-extrabold text-white">Super Admin Command Center</h1>
+                            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold uppercase">Full Access Control</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Manage members, KYC, deposits, withdrawals, capital adjustments, plans, fraud alerts & reports.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="triggerSystemBackup()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                        <i data-lucide="database-backup" class="w-4 h-4"></i> Run DB Backup
+                    </button>
+                    <button onclick="openModal('admin-notify-modal')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white flex items-center gap-1.5">
+                        <i data-lucide="megaphone" class="w-4 h-4"></i> Send Notification
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Sub-Navigation Pills -->
+            <div class="flex flex-wrap gap-2 bg-slate-900/80 p-2 rounded-2xl border border-slate-800">
+                <button onclick="switchAdminTab('reports')" id="a-tab-reports" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950">Reports & P/L</button>
+                <button onclick="switchAdminTab('members')" id="a-tab-members" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800">Members, KYC & Capital</button>
+                <button onclick="switchAdminTab('approvals')" id="a-tab-approvals" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800">Deposit & Withdrawal Approvals</button>
+                <button onclick="switchAdminTab('ledger')" id="a-tab-ledger" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800">Transactions (Delete/Audit)</button>
+                <button onclick="switchAdminTab('plans')" id="a-tab-plans" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800">Manage Investment Plans</button>
+                <button onclick="switchAdminTab('security')" id="a-tab-security" class="admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800">Fraud, Support & Activity Log</button>
+            </div>
+
+            <!-- ADMIN PANEL 1: REPORTS & PROFIT/LOSS CALCULATION -->
+            <div id="admin-panel-reports" class="admin-panel space-y-6">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="glass-card rounded-2xl p-4">
+                        <span class="text-xs text-slate-400">Total Platform Members</span>
+                        <div id="admin-kpi-members" class="text-2xl font-extrabold text-white mt-1">34,892</div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4">
+                        <span class="text-xs text-slate-400">Pending KYC / Approvals</span>
+                        <div id="admin-kpi-pending" class="text-2xl font-extrabold text-amber-400 mt-1">4</div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4">
+                        <span class="text-xs text-slate-400">Net Platform Reserve</span>
+                        <div class="text-2xl font-extrabold text-emerald-400 mt-1">৳19,76,65,800</div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-4">
+                        <span class="text-xs text-slate-400">Fraud Alerts Blocked</span>
+                        <div class="text-2xl font-extrabold text-rose-400 mt-1">12 Today</div>
+                    </div>
+                </div>
+
+                <!-- Daily / Monthly / Annual Report Chart & P/L Calculator -->
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-8 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="font-extrabold text-white text-base">Financial Volume Report (Deposits vs Withdrawals vs Profit)</h3>
+                            <div class="flex gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+                                <button onclick="updateAdminReportChart('daily')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-semibold">Daily</button>
+                                <button onclick="updateAdminReportChart('monthly')" class="px-2.5 py-1 rounded-lg text-slate-300 hover:text-white">Monthly</button>
+                                <button onclick="updateAdminReportChart('annual')" class="px-2.5 py-1 rounded-lg text-slate-300 hover:text-white">Annual</button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="adminFinancialChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Profit & Loss Distribution Calculator -->
+                    <div class="lg:col-span-4 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="font-extrabold text-white text-base">Profit & Loss Calculation Engine</h3>
+                        <p class="text-xs text-slate-400">Calculate and distribute daily yield or market drawdown across active pools.</p>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-slate-300 block mb-1">Active Pool Capital (BDT ৳)</label>
+                                <input type="number" id="admin-pl-capital" value="489250000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-300 block mb-1">Market Return Rate (%)</label>
+                                <input type="number" id="admin-pl-rate" step="0.1" value="1.4" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-1">
+                                <div class="flex justify-between"><span>Gross Yield:</span> <strong id="admin-pl-gross" class="text-emerald-400">৳68,49,500</strong></div>
+                                <div class="flex justify-between"><span>Referral Commission Pool (8%):</span> <strong id="admin-pl-ref" class="text-purple-400">৳5,47,960</strong></div>
+                                <div class="flex justify-between"><span>Net Investor Payout:</span> <strong id="admin-pl-net" class="text-white">৳63,01,540</strong></div>
+                            </div>
+                            <button onclick="runAdminProfitDistribution()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">Calculate & Credit Yield</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 2: MEMBERS, KYC & ADD/SUBTRACT CAPITAL -->
+            <div id="admin-panel-members" class="admin-panel hidden space-y-6">
+                <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-white">Member Accounts, KYC Verification & Capital Adjustment</h3>
+                            <p class="text-xs text-slate-400">Approve KYC documents, freeze/activate accounts, or add/subtract member capital directly.</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
+                                <tr>
+                                    <th class="py-3 px-3">Member</th>
+                                    <th class="py-3 px-3">Tier</th>
+                                    <th class="py-3 px-3">Balance</th>
+                                    <th class="py-3 px-3">KYC Status</th>
+                                    <th class="py-3 px-3">Account</th>
+                                    <th class="py-3 px-3 text-right">Admin Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-members-tbody" class="divide-y divide-slate-800">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 3: DEPOSIT & WITHDRAWAL APPROVALS -->
+            <div id="admin-panel-approvals" class="admin-panel hidden space-y-6">
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Deposit Verification Queue -->
+                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white">Deposit Verification Queue</h3>
+                        <p class="text-xs text-slate-400">Verify bKash/Nagad/USDT TrxID before crediting member balance.</p>
+                        <div id="admin-deposits-list" class="space-y-3">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Withdrawal Approval Queue -->
+                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white">Withdrawal Approval Queue</h3>
+                        <p class="text-xs text-slate-400">Approve or reject member payout requests.</p>
+                        <div id="admin-withdrawals-list" class="space-y-3">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 4: TRANSACTION RECORDS (WITH DELETE CAPABILITY) -->
+            <div id="admin-panel-ledger" class="admin-panel hidden space-y-6">
+                <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-white">Master Transaction Ledger</h3>
+                            <p class="text-xs text-slate-400">Full audit history. Admins can delete erroneous or duplicate transaction records as required.</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
+                                <tr>
+                                    <th class="py-3 px-3">Trx ID</th>
+                                    <th class="py-3 px-3">User</th>
+                                    <th class="py-3 px-3">Type</th>
+                                    <th class="py-3 px-3">Gateway / Plan</th>
+                                    <th class="py-3 px-3">Amount</th>
+                                    <th class="py-3 px-3">Status</th>
+                                    <th class="py-3 px-3 text-right">Delete Record</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-ledger-tbody" class="divide-y divide-slate-800">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 5: CREATE & UPDATE INVESTMENT PLANS -->
+            <div id="admin-panel-plans" class="admin-panel hidden space-y-6">
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-5 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white">Create / Add Investment Plan</h3>
+                        <form onsubmit="handleAdminCreatePlan(event)" class="space-y-3">
+                            <input type="text" id="new-plan-name" required placeholder="Plan Name (e.g. Executive Alpha)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <input type="number" id="new-plan-min" required placeholder="Min Amount (৳)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                                <input type="number" id="new-plan-max" required placeholder="Max Amount (৳)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <input type="number" id="new-plan-days" required placeholder="Term (Days)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                                <input type="text" id="new-plan-return" required placeholder="Est. Return (e.g. 18% - 24%)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                            </div>
+                            <select id="new-plan-risk" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white">
+                                <option value="Low Risk">Low Risk</option>
+                                <option value="Moderate Risk">Moderate Risk</option>
+                                <option value="Medium-High Risk">Medium-High Risk</option>
+                            </select>
+                            <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold">Publish Investment Plan</button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-7 glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white">Active Investment Plans</h3>
+                        <div id="admin-plans-list" class="space-y-3">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN PANEL 6: FRAUD DETECTION, SUPPORT TICKETS & ADMIN ACTIVITY LOG -->
+            <div id="admin-panel-security" class="admin-panel hidden space-y-6">
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Fraud Detection & Security Essentials -->
+                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i data-lucide="radar" class="w-5 h-5 text-rose-400"></i> Fraud Detection & Security Monitor
+                        </h3>
+                        <div class="space-y-2.5 text-xs">
+                            <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-500/30 flex items-center justify-between">
+                                <div>
+                                    <strong class="text-rose-300 block">Duplicate TrxID Attempt Blocked</strong>
+                                    <span class="text-slate-400">IP 103.145.xx.12 tried reusing TrxID BKH98A72X9</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Blocked</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 flex items-center justify-between">
+                                <div>
+                                    <strong class="text-amber-300 block">Rate Limiter Triggered</strong>
+                                    <span class="text-slate-400">5 failed login attempts throttled for 15 mins</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Mitigated</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 pt-2">
+                                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">HTTPS / TLS 1.3: <strong class="text-emerald-400">Active</strong></div>
+                                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">Password Hash: <strong class="text-emerald-400">Argon2id</strong></div>
+                                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">DB Auto-Backup: <strong class="text-emerald-400">Every 6h</strong></div>
+                                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">2FA Enforcement: <strong class="text-emerald-400">Enabled</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Activity Log & Support Tickets -->
+                    <div class="glass-card rounded-3xl p-6 border border-slate-800 space-y-4">
+                        <h3 class="text-lg font-extrabold text-white">Admin Activity Log</h3>
+                        <div id="admin-activity-log" class="space-y-2 max-h-56 overflow-y-auto text-xs">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================================= -->
+    <!-- MODALS: AUTH (LOGIN / REGISTER / OTP / RESET), CAPITAL ADJUST, NOTIFICATIONS, TERMS       -->
+    <!-- ========================================================================================= -->
+
+    <!-- 1. Auth Modal (Register with Profile Pic, OTP Verification, Login, Password Reset) -->
+    <div id="auth-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-700/80 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative my-auto">
+            <button onclick="closeModal('auth-modal')" class="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Login Form -->
+            <div id="auth-step-login" class="space-y-4">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-white">Welcome Back</h3>
+                    <p class="text-xs text-slate-400 mt-1">Sign in with Email/Mobile & 2FA verification</p>
+                </div>
+                <form onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Email or Mobile Number</label>
+                        <input type="text" id="login-identifier" required value="arif.rahman@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <label class="text-xs font-semibold text-slate-300">Password</label>
+                            <button type="button" onclick="switchAuthStep('reset')" class="text-xs text-blue-400 hover:underline">Forgot Password?</button>
+                        </div>
+                        <input type="password" required value="SecurePass2026!" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition">Continue to OTP / 2FA</button>
+                </form>
+                <p class="text-center text-xs text-slate-400">Don't have an account? <button onclick="switchAuthStep('register')" class="text-blue-400 font-bold hover:underline">Register Now</button></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="auth-step-register" class="hidden space-y-4">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-white">Create Investor Account</h3>
+                    <p class="text-xs text-slate-400 mt-1">Encrypted registration with instant OTP verification</p>
+                </div>
+                <form onsubmit="handleRegisterSubmit(event)" class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <img id="reg-avatar-preview" src="https://placehold.co/64x64/1e293b/38bdf8?text=NEW" alt="Avatar" class="w-12 h-12 rounded-xl object-cover border border-slate-700">
+                        <label class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 cursor-pointer">
+                            Upload Profile Pic
+                            <input type="file" accept="image/*" onchange="previewAvatarUpload(event, 'reg-avatar-preview')" class="hidden">
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+                        <input type="text" id="reg-name" required placeholder="e.g. Mahmudul Hasan" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Email or Mobile Number</label>
+                        <input type="text" id="reg-contact" required placeholder="e.g. 01712-000000 or name@email.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Create Strong Password</label>
+                        <input type="password" required placeholder="Min 8 characters with symbol" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-white">
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-sm">Send OTP Verification Code</button>
+                </form>
+                <p class="text-center text-xs text-slate-400">Already registered? <button onclick="switchAuthStep('login')" class="text-blue-400 font-bold hover:underline">Sign In</button></p>
+            </div>
+
+            <!-- OTP Verification Step -->
+            <div id="auth-step-otp" class="hidden space-y-4 text-center">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                    <i data-lucide="smartphone-nfc" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-white">OTP & 2FA Verification</h3>
+                <p class="text-xs text-slate-400">Enter the 6-digit verification code sent to your device (Demo Code: <strong class="text-emerald-400">482910</strong>)</p>
+                <form onsubmit="handleOtpVerify(event)" class="space-y-4">
+                    <input type="text" maxlength="6" required value="482910" class="w-full text-center tracking-[0.5em] font-mono text-xl font-extrabold bg-slate-950 border border-slate-700 rounded-xl py-3 text-white">
+                    <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm">Verify & Enter Dashboard</button>
+                </form>
+            </div>
+
+            <!-- Password Reset Step -->
+            <div id="auth-step-reset" class="hidden space-y-4">
+                <h3 class="text-xl font-extrabold text-white">Reset Password</h3>
+                <p class="text-xs text-slate-400">Enter your registered email or mobile number to receive a password recovery OTP.</p>
+                <form onsubmit="event.preventDefault(); showToast('Password reset OTP sent! Check your inbox/SMS.', 'success'); switchAuthStep('login');" class="space-y-3">
+                    <input type="text" required placeholder="Registered Email or Mobile" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-sm">Send Recovery Link</button>
+                </form>
+                <button onclick="switchAuthStep('login')" class="w-full text-center text-xs text-slate-400 hover:text-white">← Back to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Admin Capital Adjustment Modal -->
+    <div id="capital-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="closeModal('capital-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <h3 class="text-lg font-extrabold text-white">Adjust Member Capital</h3>
+            <p class="text-xs text-slate-400">Member: <strong id="cap-modal-user" class="text-white">Arif Rahman</strong></p>
+            <form onsubmit="handleAdminCapitalSubmit(event)" class="space-y-3">
+                <input type="hidden" id="cap-modal-userid">
+                <select id="cap-modal-action" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                    <option value="add">Add Capital (+ Credit Balance)</option>
+                    <option value="subtract">Subtract Capital (- Debit Balance)</option>
+                </select>
+                <input type="number" id="cap-modal-amount" min="1" required placeholder="Amount in BDT (৳)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                <input type="text" id="cap-modal-note" required placeholder="Audit Reason (e.g. Bonus / Correction)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Apply Capital Adjustment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Admin Send Notification Modal -->
+    <div id="admin-notify-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="closeModal('admin-notify-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <h3 class="text-lg font-extrabold text-white">Send Platform Notification</h3>
+            <form onsubmit="handleAdminSendNotification(event)" class="space-y-3">
+                <select id="notif-target" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                    <option value="All Members">Broadcast to All Members</option>
+                    <option value="Arif Rahman">Specific Member: Arif Rahman</option>
+                    <option value="Nusrat Jahan">Specific Member: Nusrat Jahan</option>
+                </select>
+                <input type="text" id="notif-title" required placeholder="Notification Title" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white">
+                <textarea id="notif-body" required rows="3" placeholder="Write notification message..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white"></textarea>
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs">Dispatch Notification</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. Notifications Drawer/Modal -->
+    <div id="notifications-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="closeModal('notifications-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <h3 class="text-lg font-extrabold text-white">Notifications & System Alerts</h3>
+            <div id="notifications-list" class="space-y-2.5 max-h-72 overflow-y-auto text-xs">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Company Information, Risk Disclosure & Terms Modal -->
+    <div id="terms-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-4 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="closeModal('terms-modal')" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h3 class="text-xl font-extrabold text-white">Company Information, Investment Terms & Risk Disclosure</h3>
+            <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+                <p><strong class="text-white">1. Operating History:</strong> ApexVault Capital Ltd. has been operating continuously for <strong>2 years and 8 months</strong>, providing structured liquidity management and multi-gateway settlement services.</p>
+                <p><strong class="text-white">2. Variable Profit & Loss Policy:</strong> Returns on Basic, Standard, Premium, and Professional plans are generated according to actual market liquidity conditions. While risk management stop-losses protect principal pools, investors acknowledge potential profit or loss variance.</p>
+                <p><strong class="text-white">3. Withdrawal & Fee Rules:</strong> Minimum withdrawal is ৳500. Tier-based fees apply (Bronze 2%, Silver 1.5%, Gold 1%, Diamond 0%). Principal capital is unlocked upon completion of the selected plan term (30, 90, 180, or 365 days).</p>
+                <p><strong class="text-white">4. Security & Anti-Fraud Compliance:</strong> All deposits undergo server-side TrxID verification. Multi-account abuse or fraudulent TrxID submissions result in automatic account suspension.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FLOATING CUSTOMER SUPPORT CHAT WIDGET ==================== -->
+    <div class="fixed bottom-5 right-5 z-[70]">
+        <div id="support-chat-box" class="hidden mb-3 w-80 sm:w-96 bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-pulse"></span>
+                    <div>
+                        <h4 class="text-xs font-extrabold">ApexVault 24/7 Live Support</h4>
+                        <span class="text-[10px] text-blue-100">Typical reply time: under 2 mins</span>
+                    </div>
+                </div>
+                <button onclick="toggleSupportChat()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <div id="chat-messages-area" class="p-4 h-60 overflow-y-auto space-y-2.5 text-xs bg-slate-950/90">
+                <div class="bg-slate-800 text-slate-200 p-3 rounded-2xl rounded-tl-none max-w-[85%]">
+                    Hello! Welcome to ApexVault Capital. Need help with bKash/Nagad deposits, KYC verification, or investment plans?
+                </div>
+            </div>
+            <form onsubmit="sendChatMessage(event)" class="p-2.5 bg-slate-900 border-t border-slate-800 flex gap-2">
+                <input type="text" id="chat-input" required placeholder="Type your message..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                <button type="submit" class="px-3.5 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs">Send</button>
+            </form>
+        </div>
+
+        <button onclick="toggleSupportChat()" class="ml-auto flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-xl shadow-blue-600/30 transition">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+            <span>Live Support</span>
+        </button>
+    </div>
+
+    <!-- ========================================================================================= -->
+    <!-- APPLICATION STATE & INTERACTIVE LOGIC                                                     -->
+    <!-- ========================================================================================= -->
+    <script>
+        // Core Application State
+        const appState = {
+            currency: 'BDT', // 'BDT' or 'USDT'
+            usdtRate: 120,   // 1 USDT = 120 BDT
+            isLoggedIn: false,
+            currentUser: {
+                id: 'USR-101',
+                name: 'Arif Rahman',
+                email: 'arif.rahman@example.com',
+                avatar: 'https://placehold.co/96x96/1e293b/38bdf8?text=AR',
+                tier: 'GOLD',
+                kyc: 'Verified',
+                availableBalance: 34500,
+                investedAmount: 50000,
+                netProfitLoss: 14250,
+                totalDeposit: 95000,
+                totalWithdrawal: 24750,
+                referralEarnings: 6400
+            },
+            plans: [
+                {
+                    id: 'PLN-1',
+                    name: 'Basic',
+                    tier: 'Bronze',
+                    min: 1000,
+                    max: 4999,
+                    days: 30,
+                    returnText: '8% – 12% (Market Linked)',
+                    simRate: 0.10,
+                    fee: '2.0% Exit / 0% Mgmt',
+                    risk: 'Low Risk',
+                    withdrawalRule: 'Profit withdrawable weekly; principal after 30 days'
+                },
+                {
+                    id: 'PLN-2',
+                    name: 'Standard',
+                    tier: 'Silver',
+                    min: 5000,
+                    max: 9999,
+                    days: 90,
+                    returnText: '24% – 32% (Market Linked)',
+                    simRate: 0.28,
+                    fee: '1.5% Exit / 0% Mgmt',
+                    risk: 'Low-Moderate Risk',
+                    withdrawalRule: 'Profit withdrawable anytime; principal after 90 days'
+                },
+                {
+                    id: 'PLN-3',
+                    name: 'Premium',
+                    tier: 'Gold',
+                    min: 10000,
+                    max: 49999,
+                    days: 180,
+                    returnText: '55% – 70% (Market Linked)',
+                    simRate: 0.62,
+                    fee: '1.0% Exit / 0% Mgmt',
+                    risk: 'Moderate Risk',
+                    withdrawalRule: 'Daily profit accrual; principal unlocked at 180 days'
+                },
+                {
+                    id: 'PLN-4',
+                    name: 'Professional',
+                    tier: 'Diamond',
+                    min: 50000,
+                    max: 1000000,
+                    days: 365,
+                    returnText: '120% – 155% (Market Linked)',
+                    simRate: 1.35,
+                    fee: '0.0% Zero Fee',
+                    risk: 'Medium-High Risk',
+                    withdrawalRule: 'Instant daily profit payout; VIP principal liquidity'
+                }
+            ],
+            activeInvestments: [
+                { id: 'INV-881', planName: 'Premium Plan', amount: 35000, daysTotal: 180, daysElapsed: 112, profitEarned: 11200 },
+                { id: 'INV-904', planName: 'Standard Plan', amount: 15000, daysTotal: 90, daysElapsed: 38, profitEarned: 3050 }
+            ],
+            topEarners: [
+                { rank: 1, name: 'Mahmudul Hasan', tier: 'Diamond', rating: '5.0', income: 1845000 },
+                { rank: 2, name: 'Tanvir Ahmed', tier: 'Diamond', rating: '5.0', income: 1520400 },
+                { rank: 3, name: 'Nusrat Jahan', tier: 'Diamond', rating: '4.9', income: 1290000 },
+                { rank: 4, name: 'Rezaul Karim', tier: 'Diamond', rating: '5.0', income: 985500 },
+                { rank: 5, name: 'Sadia Afrin', tier: 'Gold', rating: '4.9', income: 842000 },
+                { rank: 6, name: 'Tariqul Islam', tier: 'Gold', rating: '4.8', income: 760200 },
+                { rank: 7, name: 'Kamrul Hasan', tier: 'Gold', rating: '4.9', income: 695000 },
+                { rank: 8, name: 'Farhana Yasmin', tier: 'Gold', rating: '4.9', income: 612800 },
+                { rank: 9, name: 'Zubayer Hossain', tier: 'Silver', rating: '4.8', income: 540000 },
+                { rank: 10, name: 'Arif Rahman', tier: 'Gold', rating: '5.0', income: 489250 }
+            ],
+            members: [
+                { id: 'USR-101', name: 'Arif Rahman', email: 'arif.rahman@example.com', tier: 'Gold', balance: 34500, kyc: 'Verified', status: 'Active' },
+                { id: 'USR-102', name: 'Nusrat Jahan', email: 'nusrat.j@example.com', tier: 'Diamond', balance: 142000, kyc: 'Verified', status: 'Active' },
+                { id: 'USR-103', name: 'Sabbir Ahmed', email: 'sabbir.a@example.com', tier: 'Silver', balance: 8500, kyc: 'Pending', status: 'Active' },
+                { id: 'USR-104', name: 'Rafiul Karim', email: 'rafiul.k@example.com', tier: 'Bronze', balance: 2000, kyc: 'Pending', status: 'Active' }
+            ],
+            transactions: [
+                { id: 'TRX-9012', user: 'Arif Rahman', type: 'Deposit', method: 'bKash', trxCode: 'BKH98A72X9', amount: 25000, date: 'Nov 13, 2026', status: 'Approved' },
+                { id: 'TRX-9011', user: 'Arif Rahman', type: 'Investment', method: 'Premium Plan', trxCode: 'INV-881', amount: 35000, date: 'Nov 10, 2026', status: 'Active' },
+                { id: 'TRX-9010', user: 'Arif Rahman', type: 'Withdrawal', method: 'Nagad', trxCode: 'NGD441209', amount: 12000, date: 'Nov 06, 2026', status: 'Approved' },
+                { id: 'TRX-9009', user: 'Sabbir Ahmed', type: 'Deposit', method: 'Nagad', trxCode: 'NGD883920', amount: 15000, date: 'Nov 14, 2026', status: 'Pending' },
+                { id: 'TRX-9008', user: 'Nusrat Jahan', type: 'Withdrawal', method: 'USDT (TRC20)', trxCode: 'WD-7721', amount: 30000, date: 'Nov 14, 2026', status: 'Pending' },
+                { id: 'TRX-9007', user: 'Arif Rahman', type: 'Deposit', method: 'Rocket', trxCode: 'RCK110293', amount: 5000, date: 'Oct 28, 2026', status: 'Failed' }
+            ],
+            tickets: [
+                { id: 'TKT-402', subject: 'Diamond Tier Upgrade Inquiry', message: 'When does my referral volume count toward Diamond upgrade?', status: 'Answered', reply: 'Support: Automatically upon reaching ৳50,000 active portfolio.' }
+            ],
+            notifications: [
+                { title: 'Daily Yield Credited (+৳420)', body: 'Your Premium Plan generated +1.2% return today.', time: '2 hours ago' },
+                { title: 'Security Audit Passed', body: '2FA & Argon2id encryption verified for your session.', time: '1 day ago' },
+                { title: '2 Years & 8 Months Milestone Bonus', body: 'Enjoy 0% deposit fees on USDT TRC20 all week!', time: '3 days ago' }
+            ],
+            adminLogs: [
+                'Nov 14, 18:10 — Admin verified KYC for Nusrat Jahan (USR-102)',
+                'Nov 14, 16:45 — Automated Encrypted Database Backup completed (SHA-256)',
+                'Nov 14, 14:20 — Blocked suspicious rate-limited login from 103.145.xx.12'
+            ]
+        };
+
+        let memberChartInstance = null;
+        let adminChartInstance = null;
+
+        // Currency Formatting Helper
+        function formatMoney(bdtAmount) {
+            if (appState.currency === 'USDT') {
+                const usdt = (bdtAmount / appState.usdtRate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                return `$${usdt} USDT`;
+            }
+            return '৳' + Math.round(bdtAmount).toLocaleString('en-IN');
+        }
+
+        function toggleCurrency() {
+            appState.currency = appState.currency === 'BDT' ? 'USDT' : 'BDT';
+            const btn = document.getElementById('currency-toggle-btn');
+            btn.innerHTML = appState.currency === 'BDT'
+                ? '<span class="text-emerald-400 font-bold">৳ BDT</span><span class="text-slate-500">/</span><span class="text-slate-400">USDT</span>'
+                : '<span class="text-slate-400">৳ BDT</span><span class="text-slate-500">/</span><span class="text-emerald-400 font-bold">USDT</span>';
+            renderAll();
+            showToast(`Display currency switched to ${appState.currency}`, 'info');
+        }
+
+        // Main View Switcher (Public / Member / Admin)
+        function switchMainView(viewName) {
+            document.getElementById('view-public').classList.add('hidden');
+            document.getElementById('view-member').classList.add('hidden');
+            document.getElementById('view-admin').classList.add('hidden');
+
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+
+            // Update Role Pill Styling
+            ['public', 'member', 'admin'].forEach(role => {
+                const btn = document.getElementById(`nav-role-${role}`);
+                if (role === viewName) {
+                    btn.className = 'px-2.5 py-1 rounded-md text-xs font-semibold transition bg-blue-600 text-white flex items-center gap-1';
+                } else {
+                    btn.className = 'px-2.5 py-1 rounded-md text-xs font-semibold transition text-slate-300 hover:text-white flex items-center gap-1';
+                }
+            });
+
+            if (viewName === 'member') initMemberChart();
+            if (viewName === 'admin') initAdminChart();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        // Member Sub-Tab Switcher
+        function switchMemberTab(tabName) {
+            document.querySelectorAll('.member-panel').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`member-panel-${tabName}`).classList.remove('hidden');
+
+            document.querySelectorAll('.member-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById(`m-tab-${tabName}`);
+            activeBtn.classList.add('bg-blue-600', 'text-white');
+            activeBtn.classList.remove('text-slate-300');
+            lucide.createIcons();
+        }
+
+        // Admin Sub-Tab Switcher
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-panel').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`admin-panel-${tabName}`).classList.remove('hidden');
+
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.className = 'admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800';
+            });
+            document.getElementById(`a-tab-${tabName}`).className = 'admin-nav-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950';
+            lucide.createIcons();
+        }
+
+        // Yield Simulator on Public Home Page
+        function updateYieldSimulator() {
+            const planIdx = parseInt(document.getElementById('sim-plan-select').value);
+            const plan = appState.plans[planIdx];
+            const rangeEl = document.getElementById('sim-amount-range');
+            let amount = parseInt(rangeEl.value);
+            if (amount < plan.min) {
+                amount = plan.min;
+                rangeEl.value = amount;
+            }
+            const profit = Math.round(amount * plan.simRate);
+            const total = amount + profit;
+
+            document.getElementById('sim-amount-display').textContent = formatMoney(amount);
+            document.getElementById('sim-profit-out').textContent = '+' + formatMoney(profit);
+            document.getElementById('sim-total-out').textContent = formatMoney(total);
+            document.getElementById('sim-term-out').textContent = `Term: ${plan.days} Days`;
+            document.getElementById('sim-risk-badge').textContent = plan.risk;
+        }
+
+        // Render Plans (Public & Member)
+        function renderPlans() {
+            const publicGrid = document.getElementById('public-plans-grid');
+            const memberGrid = document.getElementById('member-plans-grid');
+
+            publicGrid.innerHTML = appState.plans.map(plan => `
+                <div class="glass-card rounded-3xl p-6 border border-slate-800 flex flex-col justify-between hover:border-blue-500/50 transition">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 text-xs font-bold">${plan.tier} Tier</span>
+                            <span class="text-[11px] text-amber-400 font-semibold">${plan.risk}</span>
+                        </div>
+                        <h4 class="text-xl font-extrabold text-white">${plan.name} Plan</h4>
+                        <div class="text-2xl font-extrabold text-emerald-400 mt-2">${formatMoney(plan.min)} <span class="text-xs text-slate-400 font-normal">Min</span></div>
+                        <div class="mt-4 space-y-2 text-xs text-slate-300 border-t border-slate-800 pt-3">
+                            <div class="flex justify-between"><span class="text-slate-400">Max Investment:</span> <strong>${formatMoney(plan.max)}</strong></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Investment Term:</span> <strong class="text-white">${plan.days} Days</strong></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Potential Return:</span> <strong class="text-emerald-400">${plan.returnText}</strong></div>
+                            <div class="flex justify-between"><span class="text-slate-400">Fees & Charges:</span> <strong>${plan.fee}</strong></div>
+                        </div>
+                        <p class="mt-3 text-[11px] text-slate-400 bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                            <strong>Withdrawal Rule:</strong> ${plan.withdrawalRule}
+                        </p>
+                    </div>
+                    <button onclick="openAuthModal('register')" class="mt-5 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition">Invest in ${plan.name}</button>
+                </div>
+            `).join('');
+
+            memberGrid.innerHTML = appState.plans.map(plan => `
+                <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-lg font-extrabold text-white">${plan.name} Plan (${plan.days} Days)</h4>
+                        <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-xs font-bold">${plan.returnText}</span>
+                    </div>
+                    <div class="text-xs text-slate-400 flex flex-wrap gap-4">
+                        <span>Min: <strong class="text-white">${formatMoney(plan.min)}</strong></span>
+                        <span>Max: <strong class="text-white">${formatMoney(plan.max)}</strong></span>
+                        <span>Risk: <strong class="text-amber-400">${plan.risk}</strong></span>
+                    </div>
+                    <form onsubmit="handleSubscribePlan(event, '${plan.id}')" class="flex gap-2 pt-1">
+                        <input type="number" id="invest-input-${plan.id}" min="${plan.min}" max="${plan.max}" value="${plan.min}" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shrink-0">Activate</button>
+                    </form>
+                </div>
+            `).join('');
+        }
+
+        // Subscribe to Investment Plan from Member Dashboard
+        function handleSubscribePlan(e, planId) {
+            e.preventDefault();
+            const plan = appState.plans.find(p => p.id === planId);
+            const amount = parseFloat(document.getElementById(`invest-input-${planId}`).value);
+            if (amount > appState.currentUser.availableBalance) {
+                showToast('Insufficient Available Balance. Please deposit funds first.', 'error');
+                return;
+            }
+            appState.currentUser.availableBalance -= amount;
+            appState.currentUser.investedAmount += amount;
+            appState.activeInvestments.unshift({
+                id: 'INV-' + Math.floor(100 + Math.random() * 900),
+                planName: `${plan.name} Plan`,
+                amount: amount,
+                daysTotal: plan.days,
+                daysElapsed: 1,
+                profitEarned: 0
+            });
+            appState.transactions.unshift({
+                id: 'TRX-' + Math.floor(1000 + Math.random() * 9000),
+                user: appState.currentUser.name,
+                type: 'Investment',
+                method: `${plan.name} Plan`,
+                trxCode: 'AUTO-LOCK',
+                amount: amount,
+                date: 'Nov 14, 2026',
+                status: 'Active'
+            });
+            renderAll();
+            switchMemberTab('overview');
+            showToast(`Successfully invested ${formatMoney(amount)} into ${plan.name} Plan!`, 'success');
+        }
+
+        // Render Top 10 Earners Leaderboard
+        function renderTopEarners() {
+            const tbody = document.getElementById('top-earners-tbody');
+            tbody.innerHTML = appState.topEarners.map(item => `
+                <tr class="hover:bg-slate-900/50 transition">
+                    <td class="py-3 px-4 font-extrabold ${item.rank <= 3 ? 'text-amber-400' : 'text-slate-400'}">#${item.rank}</td>
+                    <td class="py-3 px-4">
+                        <div class="font-bold text-white flex items-center gap-1.5">
+                            ${item.name}
+                            <span class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300 text-[10px] font-semibold">${item.tier}</span>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4 text-amber-400 font-semibold text-xs">★ ${item.rating}</td>
+                    <td class="py-3 px-4 text-right font-extrabold text-emerald-400">${formatMoney(item.income)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Member Dashboard Data
+        function renderMemberDashboard() {
+            const u = appState.currentUser;
+            const totalBal = u.availableBalance + u.investedAmount;
+
+            document.getElementById('kpi-total-balance').textContent = formatMoney(totalBal);
+            document.getElementById('kpi-invested').textContent = formatMoney(u.investedAmount);
+            document.getElementById('kpi-available').textContent = formatMoney(u.availableBalance);
+            document.getElementById('kpi-profit-loss').textContent = '+' + formatMoney(u.netProfitLoss);
+            document.getElementById('kpi-total-deposit').textContent = formatMoney(u.totalDeposit);
+            document.getElementById('kpi-total-withdrawal').textContent = formatMoney(u.totalWithdrawal);
+            document.getElementById('kpi-referral-earnings').textContent = formatMoney(u.referralEarnings);
+            document.getElementById('plan-tab-avail').textContent = formatMoney(u.availableBalance);
+            document.getElementById('wd-avail-display').textContent = formatMoney(u.availableBalance);
+
+            // Active Investments
+            document.getElementById('active-investments-list').innerHTML = appState.activeInvestments.map(inv => {
+                const pct = Math.min(100, Math.round((inv.daysElapsed / inv.daysTotal) * 100));
+                return `
+                    <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-xs">${inv.planName} <span class="text-slate-500">(${inv.id})</span></span>
+                            <span class="text-xs font-extrabold text-emerald-400">+${formatMoney(inv.profitEarned)}</span>
+                        </div>
+                        <div class="flex justify-between text-[11px] text-slate-400">
+                            <span>Principal: <strong class="text-slate-200">${formatMoney(inv.amount)}</strong></span>
+                            <span>${inv.daysElapsed}/${inv.daysTotal} Days (${pct}%)</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-blue-500 to-emerald-400" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Member Transactions
+            const userTrx = appState.transactions.filter(t => t.user === u.name);
+            document.getElementById('member-transactions-tbody').innerHTML = userTrx.map(t => `
+                <tr>
+                    <td class="py-3 px-3 font-mono text-slate-300">${t.id}</td>
+                    <td class="py-3 px-3 font-semibold text-white">${t.type}</td>
+                    <td class="py-3 px-3 text-slate-300">${t.method} <span class="text-slate-500 font-mono">(${t.trxCode})</span></td>
+                    <td class="py-3 px-3 font-bold ${t.type === 'Withdrawal' ? 'text-amber-400' : 'text-emerald-400'}">${formatMoney(t.amount)}</td>
+                    <td class="py-3 px-3 text-slate-400">${t.date}</td>
+                    <td class="py-3 px-3">${getStatusBadge(t.status)}</td>
+                </tr>
+            `).join('');
+
+            // Deposit History
+            const deps = userTrx.filter(t => t.type === 'Deposit');
+            document.getElementById('deposit-history-tbody').innerHTML = deps.map(d => `
+                <tr>
+                    <td class="py-2.5 px-3 font-semibold text-white">${d.method}</td>
+                    <td class="py-2.5 px-3 font-mono text-slate-300">${d.trxCode}</td>
+                    <td class="py-2.5 px-3 font-bold text-emerald-400">${formatMoney(d.amount)}</td>
+                    <td class="py-2.5 px-3">${getStatusBadge(d.status)}</td>
+                </tr>
+            `).join('');
+
+            // Withdrawal History
+            const wds = userTrx.filter(t => t.type === 'Withdrawal');
+            document.getElementById('withdrawal-history-tbody').innerHTML = wds.map(w => `
+                <tr>
+                    <td class="py-2.5 px-3 font-semibold text-white">${w.method}</td>
+                    <td class="py-2.5 px-3 font-bold text-white">${formatMoney(w.amount)}</td>
+                    <td class="py-2.5 px-3 text-emerald-400">${formatMoney(w.amount * 0.99)}</td>
+                    <td class="py-2.5 px-3">${getStatusBadge(w.status)}</td>
+                </tr>
+            `).join('');
+
+            // Member Tickets
+            document.getElementById('member-tickets-list').innerHTML = appState.tickets.map(tk => `
+                <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-xs space-y-1">
+                    <div class="flex justify-between">
+                        <strong class="text-white">${tk.id}: ${tk.subject}</strong>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">${tk.status}</span>
+                    </div>
+                    <p class="text-slate-400">${tk.message}</p>
+                    <p class="text-blue-300 pt-1">${tk.reply}</p>
+                </div>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            if (status === 'Approved' || status === 'Active' || status === 'Verified') {
+                return `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[11px] font-bold">${status}</span>`;
+            }
+            if (status === 'Pending') {
+                return `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-[11px] font-bold">Pending</span>`;
+            }
+            return `<span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 text-[11px] font-bold">${status}</span>`;
+        }
+
+        // Deposit Gateway Helper
+        function updateDepositGatewayInfo() {
+            const gw = document.getElementById('dep-gateway').value;
+            const label = document.getElementById('dep-wallet-label');
+            const num = document.getElementById('dep-wallet-number');
+            const map = {
+                'bKash': ['Official bKash Merchant Number:', '01711-889944'],
+                'Nagad': ['Official Nagad Merchant Number:', '01811-776655'],
+                'Rocket': ['Official Rocket DBBL Account:', '01911-554433-8'],
+                'Bank Transfer': ['City Bank Ltd (A/C Name: ApexVault Capital):', '1102948573001'],
+                'USDT (TRC20)': ['USDT TRC20 Deposit Address:', 'TX9kL8mPqR4vW2nB7zY5cJ3xH6aF9eD1sA']
+            };
+            label.textContent = map[gw][0];
+            num.textContent = map[gw][1];
+        }
+
+        function handleMemberDeposit(e) {
+            e.preventDefault();
+            const gateway = document.getElementById('dep-gateway').value;
+            const amount = parseFloat(document.getElementById('dep-amount').value);
+            const trxid = document.getElementById('dep-trxid').value.toUpperCase();
+
+            appState.transactions.unshift({
+                id: 'TRX-' + Math.floor(1000 + Math.random() * 9000),
+                user: appState.currentUser.name,
+                type: 'Deposit',
+                method: gateway,
+                trxCode: trxid,
+                amount: amount,
+                date: 'Nov 14, 2026',
+                status: 'Pending'
+            });
+            e.target.reset();
+            renderAll();
+            showToast(`Deposit of ${formatMoney(amount)} submitted (TrxID: ${trxid}). Pending Admin Verification.`, 'success');
+        }
+
+        function calculateWithdrawalFee() {
+            const amt = parseFloat(document.getElementById('wd-amount').value) || 0;
+            const fee = amt * 0.01;
+            const net = Math.max(0, amt - fee);
+            document.getElementById('wd-fee-calc').textContent = formatMoney(fee);
+            document.getElementById('wd-net-calc').textContent = formatMoney(net);
+        }
+
+        function handleMemberWithdraw(e) {
+            e.preventDefault();
+            const method = document.getElementById('wd-method').value;
+            const amount = parseFloat(document.getElementById('wd-amount').value);
+            if (amount > appState.currentUser.availableBalance) {
+                showToast('Withdrawal amount exceeds your Available Balance.', 'error');
+                return;
+            }
+            appState.currentUser.availableBalance -= amount;
+            appState.transactions.unshift({
+                id: 'TRX-' + Math.floor(1000 + Math.random() * 9000),
+                user: appState.currentUser.name,
+                type: 'Withdrawal',
+                method: method,
+                trxCode: 'WD-' + Math.floor(1000 + Math.random() * 9000),
+                amount: amount,
+                date: 'Nov 14, 2026',
+                status: 'Pending'
+            });
+            e.target.reset();
+            calculateWithdrawalFee();
+            renderAll();
+            showToast(`Withdrawal request of ${formatMoney(amount)} via ${method} submitted!`, 'success');
+        }
+
+        // Render Admin Panel Data
+        function renderAdminPanel() {
+            // Members Table
+            document.getElementById('admin-members-tbody').innerHTML = appState.members.map(m => `
+                <tr>
+                    <td class="py-3 px-3">
+                        <div class="font-bold text-white">${m.name}</div>
+                        <div class="text-[11px] text-slate-400">${m.email}</div>
+                    </td>
+                    <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">${m.tier}</span></td>
+                    <td class="py-3 px-3 font-extrabold text-emerald-400">${formatMoney(m.balance)}</td>
+                    <td class="py-3 px-3">${getStatusBadge(m.kyc)}</td>
+                    <td class="py-3 px-3">${getStatusBadge(m.status === 'Active' ? 'Verified' : 'Suspended')}</td>
+                    <td class="py-3 px-3 text-right space-x-1.5">
+                        ${m.kyc === 'Pending' ? `<button onclick="adminApproveKyc('${m.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold">Approve KYC</button>` : ''}
+                        <button onclick="openCapitalModal('${m.id}', '${m.name}')" class="px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold">± Capital</button>
+                        <button onclick="adminToggleMemberStatus('${m.id}')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white font-semibold">${m.status === 'Active' ? 'Freeze' : 'Activate'}</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Pending Deposits
+            const pendingDeps = appState.transactions.filter(t => t.type === 'Deposit' && t.status === 'Pending');
+            document.getElementById('admin-deposits-list').innerHTML = pendingDeps.length ? pendingDeps.map(d => `
+                <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div>
+                        <strong class="text-white block">${d.user} • ${d.method}</strong>
+                        <span class="text-slate-400 font-mono">TrxID: ${d.trxCode}</span> • <strong class="text-emerald-400">${formatMoney(d.amount)}</strong>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="adminProcessTransaction('${d.id}', 'Approved')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold">Approve</button>
+                        <button onclick="adminProcessTransaction('${d.id}', 'Failed')" class="px-3 py-1.5 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-300 font-bold">Reject</button>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-xs text-slate-500">No pending deposits in queue.</p>';
+
+            // Pending Withdrawals
+            const pendingWds = appState.transactions.filter(t => t.type === 'Withdrawal' && t.status === 'Pending');
+            document.getElementById('admin-withdrawals-list').innerHTML = pendingWds.length ? pendingWds.map(w => `
+                <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div>
+                        <strong class="text-white block">${w.user} • ${w.method}</strong>
+                        <span class="text-slate-400">Requested:</span> <strong class="text-amber-400">${formatMoney(w.amount)}</strong>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="adminProcessTransaction('${w.id}', 'Approved')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold">Approve Payout</button>
+                        <button onclick="adminProcessTransaction('${w.id}', 'Rejected')" class="px-3 py-1.5 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-300 font-bold">Reject</button>
+                    </div>
+                </div>
+            `).join('') : '<p class="text-xs text-slate-500">No pending withdrawals in queue.</p>';
+
+            // Master Ledger with Delete Option
+            document.getElementById('admin-ledger-tbody').innerHTML = appState.transactions.map(t => `
+                <tr>
+                    <td class="py-3 px-3 font-mono text-slate-300">${t.id}</td>
+                    <td class="py-3 px-3 font-semibold text-white">${t.user}</td>
+                    <td class="py-3 px-3 text-slate-300">${t.type}</td>
+                    <td class="py-3 px-3 text-slate-400">${t.method} (${t.trxCode})</td>
+                    <td class="py-3 px-3 font-bold text-white">${formatMoney(t.amount)}</td>
+                    <td class="py-3 px-3">${getStatusBadge(t.status)}</td>
+                    <td class="py-3 px-3 text-right">
+                        <button onclick="adminDeleteTransaction('${t.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 text-rose-400 font-bold">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Admin Plans List
+            document.getElementById('admin-plans-list').innerHTML = appState.plans.map(p => `
+                <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
+                    <div>
+                        <strong class="text-white text-sm">${p.name} Plan</strong> <span class="text-slate-400">(${p.days} Days • ${p.risk})</span>
+                        <div class="text-slate-400 mt-0.5">Min: ${formatMoney(p.min)} | Max: ${formatMoney(p.max)} | Est: <span class="text-emerald-400">${p.returnText}</span></div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 font-bold">Active</span>
+                </div>
+            `).join('');
+
+            // Admin Activity Log
+            document.getElementById('admin-activity-log').innerHTML = appState.adminLogs.map(log => `
+                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 font-mono text-[11px]">${log}</div>
+            `).join('');
+
+            // Notifications List
+            document.getElementById('notifications-list').innerHTML = appState.notifications.map(n => `
+                <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
+                    <div class="flex justify-between">
+                        <strong class="text-white">${n.title}</strong>
+                        <span class="text-[10px] text-slate-500">${n.time}</span>
+                    </div>
+                    <p class="text-slate-400">${n.body}</p>
+                </div>
+            `).join('');
+        }
+
+        // Admin Actions
+        function adminApproveKyc(userId) {
+            const member = appState.members.find(m => m.id === userId);
+            if (member) {
+                member.kyc = 'Verified';
+                appState.adminLogs.unshift(`Nov 14, Just now — Admin approved KYC for ${member.name}`);
+                renderAll();
+                showToast(`KYC Verified for ${member.name}`, 'success');
+            }
+        }
+
+        function adminToggleMemberStatus(userId) {
+            const member = appState.members.find(m => m.id === userId);
+            if (member) {
+                member.status = member.status === 'Active' ? 'Frozen' : 'Active';
+                appState.adminLogs.unshift(`Nov 14, Just now — Admin set ${member.name} status to ${member.status}`);
+                renderAll();
+                showToast(`${member.name} account is now ${member.status}`, 'warning');
+            }
+        }
+
+        function openCapitalModal(userId, userName) {
+            document.getElementById('cap-modal-userid').value = userId;
+            document.getElementById('cap-modal-user').textContent = userName;
+            openModal('capital-modal');
+        }
+
+        function handleAdminCapitalSubmit(e) {
+            e.preventDefault();
+            const userId = document.getElementById('cap-modal-userid').value;
+            const action = document.getElementById('cap-modal-action').value;
+            const amount = parseFloat(document.getElementById('cap-modal-amount').value);
+            const note = document.getElementById('cap-modal-note').value;
+
+            const member = appState.members.find(m => m.id === userId);
+            if (member) {
+                if (action === 'add') {
+                    member.balance += amount;
+                    if (userId === 'USR-101') appState.currentUser.availableBalance += amount;
+                } else {
+                    member.balance = Math.max(0, member.balance - amount);
+                    if (userId === 'USR-101') appState.currentUser.availableBalance = Math.max(0, appState.currentUser.availableBalance - amount);
+                }
+                appState.adminLogs.unshift(`Nov 14, Just now — Admin ${action === 'add' ? 'added' : 'subtracted'} ৳${amount} for ${member.name} (${note})`);
+                closeModal('capital-modal');
+                renderAll();
+                showToast(`Capital updated for ${member.name}`, 'success');
+            }
+        }
+
+        function adminProcessTransaction(trxId, newStatus) {
+            const trx = appState.transactions.find(t => t.id === trxId);
+            if (!trx) return;
+            trx.status = newStatus;
+            if (trx.type === 'Deposit' && newStatus === 'Approved') {
+                const member = appState.members.find(m => m.name === trx.user);
+                if (member) member.balance += trx.amount;
+                if (trx.user === appState.currentUser.name) {
+                    appState.currentUser.availableBalance += trx.amount;
+                    appState.currentUser.totalDeposit += trx.amount;
+                }
+            }
+            if (trx.type === 'Withdrawal' && newStatus === 'Rejected' && trx.user === appState.currentUser.name) {
+                appState.currentUser.availableBalance += trx.amount; // Refund rejected withdrawal
+            }
+            appState.adminLogs.unshift(`Nov 14, Just now — Admin marked ${trx.id} (${trx.type}) as ${newStatus}`);
+            renderAll();
+            showToast(`Transaction ${trx.id} marked as ${newStatus}`, 'success');
+        }
+
+        function adminDeleteTransaction(trxId) {
+            appState.transactions = appState.transactions.filter(t => t.id !== trxId);
+            appState.adminLogs.unshift(`Nov 14, Just now — Admin deleted transaction record ${trxId}`);
+            renderAll();
+            showToast(`Transaction record ${trxId} deleted from ledger.`, 'warning');
+        }
+
+        function handleAdminCreatePlan(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-plan-name').value;
+            const min = parseFloat(document.getElementById('new-plan-min').value);
+            const max = parseFloat(document.getElementById('new-plan-max').value);
+            const days = parseInt(document.getElementById('new-plan-days').value);
+            const ret = document.getElementById('new-plan-return').value;
+            const risk = document.getElementById('new-plan-risk').value;
+
+            appState.plans.push({
+                id: 'PLN-' + (appState.plans.length + 1),
+                name,
+                tier: 'Custom VIP',
+                min,
+                max,
+                days,
+                returnText: ret,
+                simRate: 0.25,
+                fee: '1.0% Exit',
+                risk,
+                withdrawalRule: 'Profit withdrawable weekly; principal after term'
+            });
+            e.target.reset();
+            renderAll();
+            showToast(`New investment plan "${name}" published!`, 'success');
+        }
+
+        function runAdminProfitDistribution() {
+            const cap = parseFloat(document.getElementById('admin-pl-capital').value) || 0;
+            const rate = parseFloat(document.getElementById('admin-pl-rate').value) || 0;
+            const gross = cap * (rate / 100);
+            const ref = gross * 0.08;
+            const net = gross - ref;
+
+            document.getElementById('admin-pl-gross').textContent = formatMoney(gross);
+            document.getElementById('admin-pl-ref').textContent = formatMoney(ref);
+            document.getElementById('admin-pl-net').textContent = formatMoney(net);
+            appState.adminLogs.unshift(`Nov 14, Just now — Admin distributed ${rate}% daily yield (${formatMoney(net)})`);
+            renderAdminPanel();
+            showToast(`Profit & Loss distributed across active investor pools!`, 'success');
+        }
+
+        function handleAdminSendNotification(e) {
+            e.preventDefault();
+            const target = document.getElementById('notif-target').value;
+            const title = document.getElementById('notif-title').value;
+            const body = document.getElementById('notif-body').value;
+
+            appState.notifications.unshift({ title: `[${target}] ${title}`, body, time: 'Just now' });
+            document.getElementById('notif-badge').textContent = appState.notifications.length;
+            e.target.reset();
+            closeModal('admin-notify-modal');
+            renderAdminPanel();
+            showToast(`Notification dispatched to ${target}!`, 'success');
+        }
+
+        function triggerSystemBackup() {
+            appState.adminLogs.unshift(`Nov 14, Just now — Manual AES-256 Database Snapshot completed`);
+            renderAdminPanel();
+            showToast('Encrypted database backup completed & stored off-site.', 'success');
+        }
+
+        // Auth Flows (Login, Register, OTP, Logout)
+        function openAuthModal(step) {
+            openModal('auth-modal');
+            switchAuthStep(step);
+        }
+
+        function switchAuthStep(step) {
+            ['login', 'register', 'otp', 'reset'].forEach(s => {
+                document.getElementById(`auth-step-${s}`).classList.add('hidden');
+            });
+            document.getElementById(`auth-step-${step}`).classList.remove('hidden');
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            switchAuthStep('otp');
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const contact = document.getElementById('reg-contact').value;
+            appState.currentUser.name = name;
+            appState.currentUser.email = contact;
+            document.getElementById('dash-username').textContent = name;
+            document.getElementById('dash-email').textContent = contact;
+            document.getElementById('nav-user-name').textContent = name;
+            switchAuthStep('otp');
+        }
+
+        function handleOtpVerify(e) {
+            e.preventDefault();
+            appState.isLoggedIn = true;
+            document.getElementById('auth-buttons-guest').classList.add('hidden');
+            document.getElementById('auth-buttons-logged').classList.remove('hidden');
+            document.getElementById('auth-buttons-logged').classList.add('flex');
+            closeModal('auth-modal');
+            switchMainView('member');
+            showToast(`Welcome back, ${appState.currentUser.name}! 2FA Verified.`, 'success');
+        }
+
+        function handleLogout() {
+            appState.isLoggedIn = false;
+            document.getElementById('auth-buttons-guest').classList.remove('hidden');
+            document.getElementById('auth-buttons-logged').classList.add('hidden');
+            switchMainView('public');
+            showToast('You have been securely logged out.', 'info');
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            const newName = document.getElementById('prof-name-input').value;
+            const newContact = document.getElementById('prof-contact-input').value;
+            appState.currentUser.name = newName;
+            appState.currentUser.email = newContact;
+            document.getElementById('dash-username').textContent = newName;
+            document.getElementById('dash-email').textContent = newContact;
+            document.getElementById('nav-user-name').textContent = newName;
+            showToast('Profile & password credentials updated!', 'success');
+        }
+
+        function handleKycSubmit(e) {
+            e.preventDefault();
+            document.getElementById('kyc-status-pill').textContent = 'Under Review';
+            document.getElementById('kyc-status-pill').className = 'px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold';
+            showToast('KYC identity documents uploaded for verification!', 'success');
+        }
+
+        function handleMemberTicketSubmit(e) {
+            e.preventDefault();
+            const subject = document.getElementById('ticket-subject').value;
+            const message = document.getElementById('ticket-message').value;
+            appState.tickets.unshift({
+                id: 'TKT-' + Math.floor(500 + Math.random() * 400),
+                subject,
+                message,
+                status: 'Open',
+                reply: 'Support Agent assigned. Average response time: 5 mins.'
+            });
+            e.target.reset();
+            renderMemberDashboard();
+            showToast('Support ticket submitted!', 'success');
+        }
+
+        function previewAvatarUpload(event, imgId) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById('dash-avatar').src = e.target.result;
+                document.getElementById('nav-user-avatar').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Charts Initialization
+        function initMemberChart() {
+            const ctx = document.getElementById('memberPortfolioChart');
+            if (!ctx) return;
+            if (memberChartInstance) memberChartInstance.destroy();
+            memberChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+                    datasets: [{
+                        label: 'Portfolio Value (৳)',
+                        data: [52000, 58400, 63100, 71500, 78900, 84500],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        }
+
+        function initAdminChart() {
+            const ctx = document.getElementById('adminFinancialChart');
+            if (!ctx) return;
+            if (adminChartInstance) adminChartInstance.destroy();
+            adminChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [
+                        { label: 'Deposits (৳)', data: [420000, 580000, 510000, 690000, 740000, 620000, 810000], backgroundColor: '#10b981', borderRadius: 6 },
+                        { label: 'Withdrawals (৳)', data: [210000, 290000, 240000, 310000, 360000, 280000, 340000], backgroundColor: '#f59e0b', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#cbd5e1' } } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(148,163,184,0.1)' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        }
+
+        function updateAdminReportChart(period) {
+            if (!adminChartInstance) return;
+            const datasets = {
+                daily: [[420000, 580000, 510000, 690000, 740000, 620000, 810000], [210000, 290000, 240000, 310000, 360000, 280000, 340000]],
+                monthly: [[4500000, 5200000, 6100000, 6800000, 7900000, 8400000, 9200000], [2100000, 2400000, 2900000, 3200000, 3800000, 4100000, 4400000]],
+                annual: [[18000000, 34000000, 48925000, 61401850, 72000000, 85000000, 98000000], [9000000, 16500000, 29158420, 34000000, 39000000, 45000000, 51000000]]
+            };
+            adminChartInstance.data.datasets[0].data = datasets[period][0];
+            adminChartInstance.data.datasets[1].data = datasets[period][1];
+            adminChartInstance.update();
+            showToast(`Loaded ${period.toUpperCase()} financial report.`, 'info');
+        }
+
+        // Utility Functions: Modals, Copy, Support Chat, Toasts
+        function openModal(id) {
+            const el = document.getElementById(id);
+            el.classList.remove('hidden');
+            el.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            el.classList.add('hidden');
+            el.classList.remove('flex');
+        }
+
+        function copyTextValue(elementId, successMessage) {
+            const el = document.getElementById(elementId);
+            const text = el.value !== undefined ? el.value : el.textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(successMessage, 'success');
+        }
+
+        function toggleSupportChat() {
+            document.getElementById('support-chat-box').classList.toggle('hidden');
+        }
+
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            const area = document.getElementById('chat-messages-area');
+            area.innerHTML += `<div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] ml-auto">${msg}</div>`;
+            input.value = '';
+            area.scrollTop = area.scrollHeight;
+            setTimeout(() => {
+                area.innerHTML += `<div class="bg-slate-800 text-slate-200 p-3 rounded-2xl rounded-tl-none max-w-[85%]">Thank you! A live specialist has received your inquiry regarding "${msg}" and is checking your account status.</div>`;
+                area.scrollTop = area.scrollHeight;
+            }, 700);
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const colors = {
+                success: 'bg-emerald-950/95 border-emerald-500/60 text-emerald-200',
+                error: 'bg-rose-950/95 border-rose-500/60 text-rose-200',
+                warning: 'bg-amber-950/95 border-amber-500/60 text-amber-200',
+                info: 'bg-slate-900/95 border-blue-500/60 text-blue-200'
+            };
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-2xl border shadow-xl text-xs font-semibold flex items-center justify-between gap-3 transition-all ${colors[type]}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3600);
+        }
+
+        function renderAll() {
+            updateYieldSimulator();
+            renderPlans();
+            renderTopEarners();
+            renderMemberDashboard();
+            renderAdminPanel();
+            lucide.createIcons();
+        }
+
+        // Initialize on Window Load
+        window.onload = function() {
+            renderAll();
+        };
+    </script>
+</body>
+</html>
